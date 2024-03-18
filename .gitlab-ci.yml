@@ -16,7 +16,7 @@ before_script:
   - wget -q -O - https://download.bell-sw.com/pki/GPG-KEY-bellsoft | apt-key add -
   - echo "deb [arch=amd64] https://apt.bell-sw.com/ stable main" | tee /etc/apt/sources.list.d/bellsoft.list
   - apt-get --quiet update --yes
-  - apt-get install bellsoft-java11-lite --yes
+  - apt-get install bellsoft-java17-lite --yes
   - java -version
 
   # download and unzip android sdk
