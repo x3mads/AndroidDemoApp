@@ -1,16 +1,22 @@
 package com.x3mads.demo
 
+import android.content.Context
+import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
+import java.io.IOException
+
 
 class DemoAppLovinTest {
 
@@ -21,6 +27,7 @@ class DemoAppLovinTest {
         // Start the activity before each test
 
         scenario = ActivityScenario.launch(DemoActivity::class.java)
+        dismissAppCrashSystemDialogIfShown()
         onView(withId(R.id.btn_init)).perform(click())
         Thread.sleep(2_000)
     }
@@ -94,5 +101,17 @@ class DemoAppLovinTest {
         }
 
         Thread.sleep(2_000)
+    }
+
+    fun dismissAppCrashSystemDialogIfShown() {
+        try {
+            UiDevice
+                .getInstance(InstrumentationRegistry.getInstrumentation())
+                .executeShellCommand(
+                    "am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS"
+                )
+        } catch (e: IOException) {
+            println("Exception: $e")
+        }
     }
 }
