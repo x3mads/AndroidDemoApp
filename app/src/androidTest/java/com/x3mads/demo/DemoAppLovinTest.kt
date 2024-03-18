@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
 class DemoAppLovinTest {
@@ -73,6 +74,7 @@ class DemoAppLovinTest {
         Thread.sleep(2_000)
     }
 
+    @Ignore("Rewarded test placement not working")
     @Test
     fun rewardedShouldLoadAndShow() {
         onView(withId(R.id.et_placement_id)).perform(replaceText("4-16/409"))
