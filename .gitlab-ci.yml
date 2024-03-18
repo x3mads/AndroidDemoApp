@@ -51,7 +51,7 @@ stages:
 unit tests:
   stage: test
   tags:
-    - eterPIPE-Apps-MoP
+    - sre-runner
   script:
     - ./gradlew testDebugUnitTest
   artifacts:
@@ -63,6 +63,8 @@ unit tests:
 
 instrumented tests:
   stage: test
+  tags:
+    - sre-runner
   script:
 
     # install packages needed by emulator
