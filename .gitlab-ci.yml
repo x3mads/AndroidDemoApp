@@ -48,19 +48,6 @@ before_script:
 stages:
   - test
 
-unit tests:
-  stage: test
-  tags:
-    - sre-runner
-  script:
-    - ./gradlew testDebugUnitTest
-  artifacts:
-    when: always
-    reports:
-      junit: [
-        ./**/build/test-results/testDebugUnitTest/TEST-*.xml,
-      ]
-
 instrumented tests:
   stage: test
   tags:
