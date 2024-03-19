@@ -83,14 +83,14 @@ instrumented tests:
 
     # start adb server
     - adb start-server
-    - adb shell settings put global window_animation_scale 0
-    - adb shell settings put global transition_animation_scale 0
-    - adb shell settings put global animator_duration_scale 0
 
     # run emulator and tests
     - emulator -avd test -no-boot-anim -no-window -no-audio -no-snapshot -gpu off &
     - ./android-wait-for-emulator
     - adb shell input keyevent 82
+    - adb shell settings put global window_animation_scale 0
+    - adb shell settings put global transition_animation_scale 0
+    - adb shell settings put global animator_duration_scale 0
     - ./gradlew connectedAndroidTest -DtestTaskName.single='com.x3mads.demo.DemoAppLovinTest'
 
   artifacts:
