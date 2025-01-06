@@ -34,7 +34,6 @@ private const val lpInterstitialPlacementId = "3-181/1154"
 private const val lpRewardedPlacementId = "3-181/1155"
 
 class DemoViewModel : ViewModel() {
-    // MutableLiveData to observe the state of load actions
     private val _isIttLoaded = MutableLiveData<Boolean>()
     val isIttLoaded: LiveData<Boolean> get() = _isIttLoaded
 

@@ -1,6 +1,5 @@
 package com.x3mads.demo
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -28,7 +27,6 @@ class DemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_demo)
 
-        TopActivityLifecycleCallbacks.registerWith(this)
         // Initialize buttons
         btnInit = findViewById(R.id.btn_init)
         btnLoadBan = findViewById(R.id.btn_load_ban)
@@ -97,10 +95,6 @@ class DemoActivity : AppCompatActivity() {
         viewModel.isBanLoaded.observe(this) { isLoaded ->
             btnShowBan.isEnabled = isLoaded
         }
-    }
-
-    fun getTopActivity(): Activity? {
-        return TopActivityLifecycleCallbacks.topActivity
     }
 
 }
