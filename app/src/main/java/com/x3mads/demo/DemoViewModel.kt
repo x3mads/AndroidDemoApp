@@ -130,7 +130,7 @@ class DemoViewModel : ViewModel() {
 
     fun onShowItt(activity: Activity) {
         if (XMediatorAds.Interstitial.isReady())
-            XMediatorAds.Interstitial.show(activity)
+            activity.runOnUiThread { XMediatorAds.Interstitial.show(activity) }
         else {
             Toast.makeText(activity, "Interstitial not ready", Toast.LENGTH_SHORT).show()
             Log.e("DemoView", "Error showing interstitial, not ready")
@@ -146,7 +146,7 @@ class DemoViewModel : ViewModel() {
 
     fun onShowRew(activity: Activity) {
         if (XMediatorAds.Rewarded.isReady())
-            XMediatorAds.Rewarded.show(activity)
+            activity.runOnUiThread { XMediatorAds.Rewarded.show(activity) }
         else {
             Toast.makeText(activity, "Rewarded not ready", Toast.LENGTH_SHORT).show()
             Log.e("DemoView", "Error showing rewarded, not ready")
@@ -202,7 +202,10 @@ class DemoViewModel : ViewModel() {
         }
 
         override fun onImpression(placementId: String, impressionData: ImpressionData) {
-            Log.d("DemoView", "Interstitial impression for placementId: $placementId, data: $impressionData")
+            Log.d(
+                "DemoView",
+                "Interstitial impression for placementId: $placementId, data: $impressionData"
+            )
         }
 
         override fun onClicked(placementId: String) {
