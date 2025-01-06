@@ -79,20 +79,20 @@ class DemoActivity : AppCompatActivity() {
         viewModel.isInitialized.observe(this) { isInitialized ->
             spMediator.isEnabled = !isInitialized
             btnInit.isEnabled = !isInitialized
-            btnLoadItt.isEnabled = isInitialized
-            btnLoadRew.isEnabled = isInitialized
-            btnLoadBan.isEnabled = isInitialized
         }
 
         viewModel.isIttLoaded.observe(this) { isLoaded ->
+            btnLoadItt.isEnabled = isLoaded
             btnShowItt.isEnabled = isLoaded
         }
 
         viewModel.isRewLoaded.observe(this) { isLoaded ->
+            btnLoadRew.isEnabled = isLoaded
             btnShowRew.isEnabled = isLoaded
         }
 
         viewModel.isBanLoaded.observe(this) { isLoaded ->
+            btnLoadBan.isEnabled = isLoaded
             btnShowBan.isEnabled = isLoaded
         }
     }
