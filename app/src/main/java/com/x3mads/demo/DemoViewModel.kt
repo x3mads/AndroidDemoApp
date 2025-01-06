@@ -3,6 +3,7 @@ package com.x3mads.demo
 import android.app.Activity
 import android.util.Log
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,9 +18,20 @@ import com.x3mads.android.xmediator.core.api.InterstitialAds
 import com.x3mads.android.xmediator.core.api.RewardedAds
 import com.x3mads.android.xmediator.core.api.XMediatorAds
 
-private const val bannerPlacementId = "4-16/407"
-private const val interstitialPlacementId = "4-16/408"
-private const val rewardedPlacementId = "4-16/409"
+private const val x3mAppKey = "3-15"
+private const val x3mBannerPlacementId = "3-15/28"
+private const val x3mInterstitialPlacementId = "3-15/26"
+private const val x3mRewardedPlacementId = "3-15/27"
+
+private const val maxAppKey = "3-180"
+private const val maxBannerPlacementId = "3-180/1150"
+private const val maxInterstitialPlacementId = "3-180/1151"
+private const val maxRewardedPlacementId = "3-180/1152"
+
+private const val lpAppKey = "3-181"
+private const val lpBannerPlacementId = "3-181/1153"
+private const val lpInterstitialPlacementId = "3-181/1154"
+private const val lpRewardedPlacementId = "3-181/1155"
 
 class DemoViewModel : ViewModel() {
     // MutableLiveData to observe the state of load actions
@@ -35,10 +47,12 @@ class DemoViewModel : ViewModel() {
     private val _isInitialized = MutableLiveData<Boolean>()
     val isInitialized: LiveData<Boolean> get() = _isInitialized
 
-    private var currentPlacementId: String? = null
+    private var appKey: String? = null
+    private var bannerPlacementId: String? = null
+    private var interstitialPlacementId: String? = null
+    private var rewardedPlacementId: String? = null
 
     init {
-        // Initialize flags
         _isIttLoaded.value = false
         _isRewLoaded.value = false
         _isInitialized.value = false
@@ -46,25 +60,33 @@ class DemoViewModel : ViewModel() {
     }
 
     fun onInitButtonClick(activity: Activity) {
+        val appKey = appKey
+        if (appKey == null) {
+            Toast.makeText(activity, "Select a mediator first", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         XMediatorAds.startWith(
             activity = activity,
-            appKey = "4-16",
+            appKey = appKey,
             initSettings = InitSettings(
                 userProperties = UserProperties(
-                    userId = "automationUser",
+                    userId = "your-user-id",
                 ),
                 verbose = true,
                 test = true,
             ),
             initCallback = {
                 _isInitialized.value = true
+                onLoadBanner()
+                onLoadItt()
+                onLoadRew()
                 Log.d("DemoView", "Initialization complete!")
             },
         )
     }
 
     fun onLoadBanner() {
-        // Handle Load Banner button click
         Log.d("DemoView", "Banner onLoad")
         XMediatorAds.Banner.addListener(object : BannerAds.Listener {
 
@@ -82,13 +104,13 @@ class DemoViewModel : ViewModel() {
             }
         })
         val size = Banner.Size.Phone /* or Banner.Size.Tablet */
-        currentPlacementId?.let {
+        bannerPlacementId?.let {
             XMediatorAds.Banner.create(it, size)
         }
     }
 
     fun onShowBanner(container: ViewGroup) {
-        val placementId = currentPlacementId
+        val placementId = bannerPlacementId
         val view = if (placementId != null) XMediatorAds.Banner.getView(placementId) else null
         if (view == null) {
             Log.e("DemoView", "Error showing banner, not created")
@@ -101,37 +123,65 @@ class DemoViewModel : ViewModel() {
     }
 
     fun onLoadItt() {
-        currentPlacementId?.let {
+        interstitialPlacementId?.let {
             XMediatorAds.Interstitial.addListener(interstitialListener)
             XMediatorAds.Interstitial.load(it)
         }
     }
 
     fun onShowItt(activity: Activity) {
-        currentPlacementId?.let {
-            if (XMediatorAds.Interstitial.isReady(it))
-                XMediatorAds.Interstitial.show(it, activity)
-            else Log.e("DemoView", "Error showing interstitial, not ready")
+        if (XMediatorAds.Interstitial.isReady())
+            XMediatorAds.Interstitial.show(activity)
+        else {
+            Toast.makeText(activity, "Interstitial not ready", Toast.LENGTH_SHORT).show()
+            Log.e("DemoView", "Error showing interstitial, not ready")
         }
     }
 
     fun onLoadRew() {
-        currentPlacementId?.let {
+        rewardedPlacementId?.let {
             XMediatorAds.Rewarded.addListener(rewardedListener)
             XMediatorAds.Rewarded.load(it)
         }
     }
 
     fun onShowRew(activity: Activity) {
-        currentPlacementId?.let {
-            if (XMediatorAds.Rewarded.isReady(it))
-                XMediatorAds.Rewarded.show(it, activity)
-            else Log.e("DemoView", "Error showing rewarded, not ready")
+        if (XMediatorAds.Rewarded.isReady())
+            XMediatorAds.Rewarded.show(activity)
+        else {
+            Toast.makeText(activity, "Rewarded not ready", Toast.LENGTH_SHORT).show()
+            Log.e("DemoView", "Error showing rewarded, not ready")
         }
     }
 
-    fun setPlacementId(placementId: String) {
-        currentPlacementId = placementId
+    fun onMediatorSelected(mediator: String) {
+        Log.i("DemoView", "Selected mediator: $mediator")
+        when (mediator) {
+            "X3M" -> {
+                appKey = x3mAppKey
+                bannerPlacementId = x3mBannerPlacementId
+                interstitialPlacementId = x3mInterstitialPlacementId
+                rewardedPlacementId = x3mRewardedPlacementId
+            }
+
+            "MAX" -> {
+                appKey = maxAppKey
+                bannerPlacementId = maxBannerPlacementId
+                interstitialPlacementId = maxInterstitialPlacementId
+                rewardedPlacementId = maxRewardedPlacementId
+            }
+
+            "LEVEL PLAY" -> {
+                appKey = lpAppKey
+                bannerPlacementId = lpBannerPlacementId
+                interstitialPlacementId = lpInterstitialPlacementId
+                rewardedPlacementId = lpRewardedPlacementId
+            }
+
+            else -> {
+                // Do nothing
+            }
+        }
     }
 
     private val interstitialListener = object : InterstitialAds.Listener {

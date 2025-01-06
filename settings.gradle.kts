@@ -8,24 +8,14 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        maven(url = "https://mavenrepo.etermax.com/artifactory/repo")
+        maven { url = uri("https://android-artifact-registry.x3mads.com/maven") }
+        maven { url = uri("https://android-sdk.is.com") }
+        maven { url = uri("https://artifact.bytedance.com/repository/pangle") }
+        maven { url = uri("https://cboost.jfrog.io/artifactory/chartboost-ads") }
+        maven { url = uri("https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea") }
+        maven { url = uri("https://maven.ogury.co") }
         google()
         mavenCentral()
-        maven (
-            url= "https://cboost.jfrog.io/artifactory/chartboost-ads/"
-        )
-        maven (
-            url = "https://cboost.jfrog.io/artifactory/chartboost-mediation"
-        )
-        maven (
-            url ="https://android-sdk.is.com/"
-        )
-        maven (
-            url ="https://artifact.bytedance.com/repository/pangle"
-        )
-        maven (
-            url ="https://artifactory.appodeal.com/appodeal"
-        )
     }
 }
 

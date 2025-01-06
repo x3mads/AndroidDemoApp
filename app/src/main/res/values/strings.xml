@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">X3M Demo</string>
+    <array name="mediators">
+        <item />
+        <item>X3M</item>
+        <item>MAX</item>
+        <item>LEVEL PLAY</item>
+    </array>
 </resources>

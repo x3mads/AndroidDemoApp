@@ -2,11 +2,13 @@ package com.x3mads.demo
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.EditText
+import android.widget.Spinner
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doOnTextChanged
 
 class DemoActivity : AppCompatActivity() {
 
@@ -19,7 +21,7 @@ class DemoActivity : AppCompatActivity() {
     private lateinit var btnShowItt: Button
     private lateinit var btnLoadRew: Button
     private lateinit var btnShowRew: Button
-    private lateinit var etPlacementId: EditText
+    private lateinit var spMediator: Spinner
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +37,7 @@ class DemoActivity : AppCompatActivity() {
         btnShowItt = findViewById(R.id.btn_show_itt)
         btnLoadRew = findViewById(R.id.btn_load_rew)
         btnShowRew = findViewById(R.id.btn_show_rew)
-        etPlacementId = findViewById(R.id.et_placement_id)
+        spMediator = findViewById(R.id.sp_mediation)
 
         // Set click listeners
         btnInit.setOnClickListener { viewModel.onInitButtonClick(this) }
@@ -45,12 +47,39 @@ class DemoActivity : AppCompatActivity() {
         btnShowItt.setOnClickListener { viewModel.onShowItt(this) }
         btnLoadRew.setOnClickListener { viewModel.onLoadRew() }
         btnShowRew.setOnClickListener { viewModel.onShowRew(this) }
-        etPlacementId.doOnTextChanged { text, start, before, count ->
-            viewModel.setPlacementId(text.toString())
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.mediators,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spMediator.adapter = adapter
         }
 
+        spMediator.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                parent.getItemAtPosition(position)?.let {
+                    val mediator = it.toString()
+                    if (mediator.isNotBlank()) {
+                        viewModel.onMediatorSelected(mediator)
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing
+            }
+
+        }
         // Observe the state of load actions
         viewModel.isInitialized.observe(this) { isInitialized ->
+            spMediator.isEnabled = !isInitialized
             btnInit.isEnabled = !isInitialized
             btnLoadItt.isEnabled = isInitialized
             btnLoadRew.isEnabled = isInitialized
