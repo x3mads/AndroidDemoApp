@@ -81,7 +81,9 @@ class DemoActivity : AppCompatActivity() {
             ) {
                 parent.getItemAtPosition(position)?.let {
                     val mediator = it.toString()
-                    if (mediator.isNotBlank()) {
+                    if (mediator == "CUSTOM")
+                        viewModel.onCustomMediatorSelected(this@DemoActivity) {}
+                    else if (mediator.isNotBlank()) {
                         viewModel.onMediatorSelected(mediator)
                     }
                 }

@@ -4,7 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -285,5 +288,48 @@ class DemoViewModel : ViewModel() {
         override fun onShowed(placementId: String) {
             Log.d("DemoView", "Rewarded shown for placementId: $placementId")
         }
+    }
+
+    fun onCustomMediatorSelected(context: Context, onComplete: () -> Unit) {
+        val inputFields = listOf(
+            "App Key" to ::appKey,
+            "Banner Placement ID" to ::bannerPlacementId,
+            "Interstitial Placement ID" to ::interstitialPlacementId,
+            "Rewarded Placement ID" to ::rewardedPlacementId
+        )
+
+        val inputs = inputFields.map { (label, _) ->
+            EditText(context).apply {
+                hint = label
+            }
+        }
+
+        AlertDialog.Builder(context)
+            .setTitle("Custom Mediator Settings")
+            .setView(LinearLayout(context).apply {
+                orientation = LinearLayout.VERTICAL
+                inputs.forEach { addView(it) }
+            })
+            .setPositiveButton("OK", null) // We'll set the listener later
+            .setNegativeButton("Cancel", null)
+            .create()
+            .apply {
+                setOnShowListener {
+                    getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                        val allFieldsFilled = inputs.all { it.text.isNotEmpty() }
+                        if (allFieldsFilled) {
+                            inputFields.forEachIndexed { index, (_, property) ->
+                                property.set(inputs[index].text.toString())
+                            }
+                            onComplete()
+                            dismiss()
+                        } else {
+                            Toast.makeText(context, "All fields must be filled", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                }
+            }
+            .show()
     }
 }
