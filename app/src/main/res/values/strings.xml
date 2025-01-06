@@ -1,5 +1,18 @@
 <resources>
     <string name="app_name">X3M Demo</string>
+    <string name="label_mediator">Mediator</string>
+    <string name="label_cmp_settings">CMP Settings</string>
+    <string name="label_automatic_cmp">Automatic CMP</string>
+    <string name="label_fake_eea_region">Fake EEA region</string>
+    <string name="label_init_sdk">Init SDK</string>
+    <string name="label_interstitial">Interstitial</string>
+    <string name="label_load">Load</string>
+    <string name="label_show">Show</string>
+    <string name="label_rewarded">Rewarded</string>
+    <string name="label_banner">Banner</string>
+    <string name="label_cmp">CMP</string>
+    <string name="label_show_form">Show Form</string>
+    <string name="label_reset">Reset</string>
     <array name="mediators">
         <item />
         <item>X3M</item>
