@@ -1,6 +1,7 @@
 package com.x3mads.demo
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.Toast
@@ -8,6 +9,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.etermax.xmediator.core.api.Banner
+import com.etermax.xmediator.core.api.entities.CMPDebugGeography
+import com.etermax.xmediator.core.api.entities.CMPDebugSettings
+import com.etermax.xmediator.core.api.entities.ConsentInformation
 import com.etermax.xmediator.core.api.entities.ImpressionData
 import com.etermax.xmediator.core.api.entities.InitSettings
 import com.etermax.xmediator.core.api.entities.LoadResult
@@ -50,6 +54,8 @@ class DemoViewModel : ViewModel() {
     private var bannerPlacementId: String? = null
     private var interstitialPlacementId: String? = null
     private var rewardedPlacementId: String? = null
+    private var fakeEeaRegion: Boolean = false
+    private var cmpEnabled: Boolean = false
 
     init {
         _isIttLoaded.value = false
@@ -72,6 +78,7 @@ class DemoViewModel : ViewModel() {
                 userProperties = UserProperties(
                     userId = "your-user-id",
                 ),
+                consentInformation = getConsentInformation(),
                 verbose = true,
                 test = true,
             ),
@@ -83,6 +90,23 @@ class DemoViewModel : ViewModel() {
                 Log.d("DemoView", "Initialization complete!")
             },
         )
+    }
+
+    private fun getConsentInformation(): ConsentInformation? {
+        var consentInformation: ConsentInformation? = null
+        var cmpDebugSettings: CMPDebugSettings? = null
+
+        if (fakeEeaRegion)
+            cmpDebugSettings = CMPDebugSettings(
+                cmpDebugGeography = CMPDebugGeography.EEA
+            )
+
+        if (cmpEnabled)
+            consentInformation = ConsentInformation(
+                isCMPAutomationEnabled = true,
+                cmpDebugSettings = cmpDebugSettings
+            )
+        return consentInformation
     }
 
     fun onLoadBanner() {
@@ -181,6 +205,32 @@ class DemoViewModel : ViewModel() {
                 // Do nothing
             }
         }
+    }
+
+    fun onCmpEnabledChanged(checked: Boolean) {
+        cmpEnabled = checked
+    }
+
+    fun onFakeEeaRegionChanged(checked: Boolean) {
+        fakeEeaRegion = checked
+    }
+
+    fun onShowCmpForm(activity: Activity) {
+        XMediatorAds.CMPProvider.showPrivacyForm(activity) { error ->
+            if (error != null) {
+                Log.d("PrivacyForm", "Error: $error")
+            }
+
+            Log.d("PrivacyForm", "showPrivacyForm complete!")
+        }
+    }
+
+    fun onResetCmp(context: Context) {
+        XMediatorAds.CMPProvider.reset(context)
+    }
+
+    fun isCmpProviderAvailable(context: Context): Boolean {
+        return XMediatorAds.CMPProvider.isPrivacyFormAvailable(context)
     }
 
     private val interstitialListener = object : InterstitialAds.Listener {
