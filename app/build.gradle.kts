@@ -80,7 +80,7 @@ dependencies {
     implementation("com.ironsource.adapters:admobadapter:4.3.48")
     implementation("com.applovin.mediation:google-ad-manager-adapter:23.6.0.1")
     implementation("com.applovin.mediation:google-adapter:23.6.0.1")
-    implementation("com.x3mads.android.xmediator.mediation:google-ads:23.6.0.0")
+    implementation("com.x3mads.android.xmediator.mediation:google-ads:23.6.0.0") //implementation(project(":mediation:google-ads")) // Use example adapter instead
     // hyprmx
     implementation("com.hyprmx.android:HyprMX-SDK:6.4.2")
     implementation("com.ironsource.adapters:hyprmxadapter:4.3.10")

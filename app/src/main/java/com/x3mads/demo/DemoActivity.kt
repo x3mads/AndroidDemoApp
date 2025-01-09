@@ -26,6 +26,9 @@ class DemoActivity : AppCompatActivity() {
     private lateinit var ctvFakeEeaRegion: CheckedTextView
     private lateinit var btnCmpShowForm: Button
     private lateinit var btnCmpReset: Button
+    private lateinit var btnDebuggingSuite: Button
+    private lateinit var clMediatorWarning: View
+    private lateinit var btnResetApp: View
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,16 +47,25 @@ class DemoActivity : AppCompatActivity() {
         ctvFakeEeaRegion = findViewById(R.id.ctv_fake_region)
         btnCmpShowForm = findViewById(R.id.btn_show_form)
         btnCmpReset = findViewById(R.id.btn_reset_cmp)
+        btnDebuggingSuite = findViewById(R.id.btn_debugging_suite)
+        clMediatorWarning = findViewById(R.id.cl_mediator_warning)
+        btnResetApp = findViewById(R.id.btn_reset_app)
+
+        ctvFakeEeaRegion.isEnabled = false
 
         btnInit.setOnClickListener { viewModel.onInitButtonClick(this) }
-        btnLoadBan.setOnClickListener { viewModel.onLoadBanner() }
+        btnLoadBan.setOnClickListener { viewModel.loadBanner() }
         btnShowBan.setOnClickListener { viewModel.onShowBanner(findViewById(R.id.banner_footer)) }
-        btnLoadItt.setOnClickListener { viewModel.onLoadItt() }
+        btnLoadItt.setOnClickListener { viewModel.loadItt(this) }
         btnShowItt.setOnClickListener { viewModel.onShowItt(this) }
-        btnLoadRew.setOnClickListener { viewModel.onLoadRew() }
+        btnLoadRew.setOnClickListener { viewModel.loadRew(this) }
         btnShowRew.setOnClickListener { viewModel.onShowRew(this) }
         ctvAutomaticCmp.setOnClickListener {
             ctvAutomaticCmp.isChecked = !ctvAutomaticCmp.isChecked
+            ctvFakeEeaRegion.isEnabled = ctvAutomaticCmp.isChecked
+            if (ctvAutomaticCmp.isChecked.not()) {
+                ctvFakeEeaRegion.isChecked = false
+            }
             viewModel.onCmpEnabledChanged(ctvAutomaticCmp.isChecked)
         }
         ctvFakeEeaRegion.setOnClickListener {
@@ -62,6 +74,8 @@ class DemoActivity : AppCompatActivity() {
         }
         btnCmpShowForm.setOnClickListener { viewModel.onShowCmpForm(this) }
         btnCmpReset.setOnClickListener { viewModel.onResetCmp(this) }
+        btnDebuggingSuite.setOnClickListener { viewModel.onDebuggingSuiteButtonClick(this) }
+        btnResetApp.setOnClickListener { viewModel.resetApp(this) }
 
         ArrayAdapter.createFromResource(
             this,
@@ -98,10 +112,11 @@ class DemoActivity : AppCompatActivity() {
             spMediator.isEnabled = !isInitialized
             btnInit.isEnabled = !isInitialized
             ctvAutomaticCmp.isEnabled = !isInitialized
-            ctvFakeEeaRegion.isEnabled = !isInitialized
+            ctvFakeEeaRegion.isEnabled = !isInitialized && ctvAutomaticCmp.isChecked
             val cmpProviderAvailable = viewModel.isCmpProviderAvailable(this)
             btnCmpShowForm.isEnabled = cmpProviderAvailable
             btnCmpReset.isEnabled = cmpProviderAvailable
+            clMediatorWarning.visibility = if (isInitialized) View.VISIBLE else View.GONE
         }
 
         viewModel.isIttLoaded.observe(this) { isLoaded ->

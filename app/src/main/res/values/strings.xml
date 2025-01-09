@@ -13,6 +13,8 @@
     <string name="label_cmp">CMP</string>
     <string name="label_show_form">Show Form</string>
     <string name="label_reset">Reset</string>
+    <string name="label_debugging_suite">Debugging Suite</string>
+    <string name="reopen_message">You should reopen the app to switch mediator</string>
     <array name="mediators">
         <item />
         <item>X3M</item>

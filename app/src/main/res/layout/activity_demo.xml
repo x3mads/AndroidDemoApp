@@ -38,17 +38,49 @@
             android:popupBackground="@android:drawable/spinner_dropdown_background" />
     </LinearLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_mediator_warning"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_mediators">
+
+        <TextView
+            android:id="@+id/tx_mediator_warning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/reopen_message"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_reset_app"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_reset_app" />
+
+        <ImageButton
+            android:id="@+id/btn_reset_app"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/reset_24"
+            android:contentDescription="@string/reopen_message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tx_mediator_warning"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <LinearLayout
         android:id="@+id/ll_cmp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_mediators">
+        app:layout_constraintTop_toBottomOf="@id/cl_mediator_warning">
 
         <TextView
             android:id="@+id/tx_label_cmp_settings"
@@ -80,6 +112,7 @@
                 android:layout_marginStart="12dp"
                 android:checkMark="?android:attr/listChoiceIndicatorMultiple"
                 android:checked="false"
+                android:enabled="false"
                 android:gravity="center"
                 android:text="@string/label_fake_eea_region" />
         </LinearLayout>
@@ -91,7 +124,7 @@
         android:id="@+id/btn_init"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:text="@string/label_init_sdk"
@@ -103,7 +136,7 @@
         android:id="@+id/cl_itt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_init">
@@ -153,7 +186,7 @@
         android:id="@+id/cl_rew"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_itt">
@@ -201,7 +234,7 @@
         android:id="@+id/cl_ban"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_rew">
@@ -249,7 +282,7 @@
         android:id="@+id/cl_cmp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_ban">
@@ -294,6 +327,19 @@
             app:layout_constraintTop_toBottomOf="@id/tx_label_cmp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btn_debugging_suite"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="64dp"
+        android:enabled="true"
+        android:text="@string/label_debugging_suite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_cmp" />
 
     <FrameLayout
         android:id="@+id/banner_footer"

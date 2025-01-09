@@ -2,6 +2,8 @@ package com.x3mads.demo
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.EditText
@@ -87,9 +89,9 @@ class DemoViewModel : ViewModel() {
             ),
             initCallback = {
                 _isInitialized.value = true
-                onLoadBanner()
-                onLoadItt()
-                onLoadRew()
+                loadBanner()
+                loadItt(activity)
+                loadRew(activity)
                 Log.d("DemoView", "Initialization complete!")
             },
         )
@@ -112,7 +114,7 @@ class DemoViewModel : ViewModel() {
         return consentInformation
     }
 
-    fun onLoadBanner() {
+    fun loadBanner() {
         Log.d("DemoView", "Banner onLoad")
         XMediatorAds.Banner.addListener(object : BannerAds.Listener {
 
@@ -148,9 +150,35 @@ class DemoViewModel : ViewModel() {
         }
     }
 
-    fun onLoadItt() {
+    fun loadItt(activity: Activity) {
         interstitialPlacementId?.let {
-            XMediatorAds.Interstitial.addListener(interstitialListener)
+            XMediatorAds.Interstitial.addListener(object : InterstitialAds.Listener {
+                override fun onLoaded(placementId: String, loadResult: LoadResult) {
+                    _isIttLoaded.value = true
+                    Log.d("DemoView", "Interstitial loaded. Placement $placementId, result: $loadResult")
+                }
+
+                override fun onShowed(placementId: String) {
+                    Log.d("DemoView", "Interstitial shown: $placementId.")
+                }
+
+                override fun onFailedToShow(placementId: String, showError: ShowError) {
+                    Log.d("DemoView", "Interstitial failed to show $placementId, ${showError.message}")
+                    Toast.makeText(activity, "Interstitial failed to show: ${showError.message}", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onDismissed(placementId: String) {
+                    Log.d("DemoView", "Interstitial dismissed for placementId: $placementId")
+                }
+
+                override fun onImpression(placementId: String, impressionData: ImpressionData) {
+                    Log.d("DemoView", "Interstitial impression for placementId: $placementId, data: $impressionData")
+                }
+
+                override fun onClicked(placementId: String) {
+                    Log.d("DemoView", "Interstitial clicked for placementId: $placementId")
+                }
+            })
             XMediatorAds.Interstitial.load(it)
         }
     }
@@ -164,9 +192,32 @@ class DemoViewModel : ViewModel() {
         }
     }
 
-    fun onLoadRew() {
+    fun loadRew(activity: Activity) {
         rewardedPlacementId?.let {
-            XMediatorAds.Rewarded.addListener(rewardedListener)
+            XMediatorAds.Rewarded.addListener(object : RewardedAds.Listener {
+
+                override fun onLoaded(placementId: String, loadResult: LoadResult) {
+                    _isRewLoaded.value = true
+                    Log.d("DemoView", "Rewarded loaded. Placement $placementId, result: $loadResult")
+                }
+
+                override fun onDismissed(placementId: String) {
+                    Log.d("DemoView", "Rewarded dismissed for placementId: $placementId")
+                }
+
+                override fun onEarnedReward(placementId: String) {
+                    Log.d("DemoView", "Rewarded earned for placementId: $placementId")
+                }
+
+                override fun onFailedToShow(placementId: String, showError: ShowError) {
+                    Log.d("DemoView", "Rewarded failed to show $placementId, ${showError.message}")
+                    Toast.makeText(activity, "Rewarded failed to show: ${showError.message}", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onShowed(placementId: String) {
+                    Log.d("DemoView", "Rewarded shown for placementId: $placementId")
+                }
+            })
             XMediatorAds.Rewarded.load(it)
         }
     }
@@ -236,60 +287,6 @@ class DemoViewModel : ViewModel() {
         return XMediatorAds.CMPProvider.isPrivacyFormAvailable(context)
     }
 
-    private val interstitialListener = object : InterstitialAds.Listener {
-        override fun onLoaded(placementId: String, loadResult: LoadResult) {
-            _isIttLoaded.value = true
-            Log.d("DemoView", "Interstitial loaded. Placement $placementId, result: $loadResult")
-        }
-
-        override fun onShowed(placementId: String) {
-            Log.d("DemoView", "Interstitial shown: $placementId.")
-        }
-
-        override fun onFailedToShow(placementId: String, showError: ShowError) {
-            Log.d("DemoView", "Interstitial failed to show $placementId, ${showError.message}")
-        }
-
-        override fun onDismissed(placementId: String) {
-            Log.d("DemoView", "Interstitial dismissed for placementId: $placementId")
-        }
-
-        override fun onImpression(placementId: String, impressionData: ImpressionData) {
-            Log.d(
-                "DemoView",
-                "Interstitial impression for placementId: $placementId, data: $impressionData"
-            )
-        }
-
-        override fun onClicked(placementId: String) {
-            Log.d("DemoView", "Interstitial clicked for placementId: $placementId")
-        }
-    }
-
-    private val rewardedListener = object : RewardedAds.Listener {
-
-        override fun onLoaded(placementId: String, loadResult: LoadResult) {
-            _isRewLoaded.value = true
-            Log.d("DemoView", "Rewarded loaded. Placement $placementId, result: $loadResult")
-        }
-
-        override fun onDismissed(placementId: String) {
-            Log.d("DemoView", "Rewarded dismissed for placementId: $placementId")
-        }
-
-        override fun onEarnedReward(placementId: String) {
-            Log.d("DemoView", "Rewarded earned for placementId: $placementId")
-        }
-
-        override fun onFailedToShow(placementId: String, showError: ShowError) {
-            Log.d("DemoView", "Rewarded failed to show $placementId, ${showError.message}")
-        }
-
-        override fun onShowed(placementId: String) {
-            Log.d("DemoView", "Rewarded shown for placementId: $placementId")
-        }
-    }
-
     fun onCustomMediatorSelected(context: Context, onComplete: () -> Unit) {
         val inputFields = listOf(
             "App Key" to ::appKey,
@@ -331,5 +328,19 @@ class DemoViewModel : ViewModel() {
                 }
             }
             .show()
+    }
+
+    fun onDebuggingSuiteButtonClick(activity: Activity) {
+        XMediatorAds.openDebuggingSuite(activity)
+    }
+
+    fun resetApp(demoActivity: DemoActivity) {
+        val packageManager: PackageManager = demoActivity.packageManager
+        val intent: Intent? = packageManager.getLaunchIntentForPackage(demoActivity.packageName)
+        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        demoActivity.startActivity(intent)
+        demoActivity.finish()
+        Runtime.getRuntime().exit(0)
     }
 }
