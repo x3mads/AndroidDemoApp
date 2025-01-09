@@ -15,11 +15,8 @@ class DemoActivity : AppCompatActivity() {
     private val viewModel: DemoViewModel by viewModels()
 
     private lateinit var btnInit: Button
-    private lateinit var btnLoadBan: Button
     private lateinit var btnShowBan: Button
-    private lateinit var btnLoadItt: Button
     private lateinit var btnShowItt: Button
-    private lateinit var btnLoadRew: Button
     private lateinit var btnShowRew: Button
     private lateinit var spMediator: Spinner
     private lateinit var ctvAutomaticCmp: CheckedTextView
@@ -29,6 +26,7 @@ class DemoActivity : AppCompatActivity() {
     private lateinit var btnDebuggingSuite: Button
     private lateinit var clMediatorWarning: View
     private lateinit var btnResetApp: View
+    private lateinit var clCmp: View
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +34,8 @@ class DemoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_demo)
 
         btnInit = findViewById(R.id.btn_init)
-        btnLoadBan = findViewById(R.id.btn_load_ban)
         btnShowBan = findViewById(R.id.btn_show_ban)
-        btnLoadItt = findViewById(R.id.btn_load_itt)
         btnShowItt = findViewById(R.id.btn_show_itt)
-        btnLoadRew = findViewById(R.id.btn_load_rew)
         btnShowRew = findViewById(R.id.btn_show_rew)
         spMediator = findViewById(R.id.sp_mediation)
         ctvAutomaticCmp = findViewById(R.id.ctv_cmp_enabled)
@@ -50,19 +45,18 @@ class DemoActivity : AppCompatActivity() {
         btnDebuggingSuite = findViewById(R.id.btn_debugging_suite)
         clMediatorWarning = findViewById(R.id.cl_mediator_warning)
         btnResetApp = findViewById(R.id.btn_reset_app)
+        clCmp = findViewById(R.id.cl_cmp)
 
         ctvFakeEeaRegion.isEnabled = false
 
         btnInit.setOnClickListener { viewModel.onInitButtonClick(this) }
-        btnLoadBan.setOnClickListener { viewModel.loadBanner() }
         btnShowBan.setOnClickListener { viewModel.onShowBanner(findViewById(R.id.banner_footer)) }
-        btnLoadItt.setOnClickListener { viewModel.loadItt(this) }
         btnShowItt.setOnClickListener { viewModel.onShowItt(this) }
-        btnLoadRew.setOnClickListener { viewModel.loadRew(this) }
         btnShowRew.setOnClickListener { viewModel.onShowRew(this) }
         ctvAutomaticCmp.setOnClickListener {
             ctvAutomaticCmp.isChecked = !ctvAutomaticCmp.isChecked
             ctvFakeEeaRegion.isEnabled = ctvAutomaticCmp.isChecked
+            clCmp.visibility = if (ctvAutomaticCmp.isChecked) View.VISIBLE else View.GONE
             if (ctvAutomaticCmp.isChecked.not()) {
                 ctvFakeEeaRegion.isChecked = false
             }
@@ -120,17 +114,14 @@ class DemoActivity : AppCompatActivity() {
         }
 
         viewModel.isIttLoaded.observe(this) { isLoaded ->
-            btnLoadItt.isEnabled = isLoaded
             btnShowItt.isEnabled = isLoaded
         }
 
         viewModel.isRewLoaded.observe(this) { isLoaded ->
-            btnLoadRew.isEnabled = isLoaded
             btnShowRew.isEnabled = isLoaded
         }
 
         viewModel.isBanLoaded.observe(this) { isLoaded ->
-            btnLoadBan.isEnabled = isLoaded
             btnShowBan.isEnabled = isLoaded
         }
     }
