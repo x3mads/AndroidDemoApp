@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "X3MDemo"
 include(":app")
- 
+include(":mediation:google-ads")
