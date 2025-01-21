@@ -9,7 +9,7 @@
     <string name="label_show_form">Show Form</string>
     <string name="label_reset">Reset</string>
     <string name="label_debugging_suite">Debugging Suite</string>
-    <string name="reopen_message">You should reopen the app to switch mediator</string>
+    <string name="reopen_message">To switch Mediator, you must reopen the app</string>
     <string name="label_show_itt">Show Interstitial</string>
     <string name="label_show_rew">Show Rewarded</string>
     <string name="label_show_banner">Show Banner</string>
