@@ -144,4 +144,9 @@ class DemoActivity : AppCompatActivity() {
         viewModel.unSubscribeEvents()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.unSubscribeEvents()
+    }
+
 }
