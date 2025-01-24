@@ -102,6 +102,9 @@ class DemoActivity : AppCompatActivity() {
             }
 
         }
+
+        viewModel.subscribeEvents()
+
         viewModel.isInitialized.observe(this) { isInitialized ->
             spMediator.isEnabled = !isInitialized
             btnInit.isEnabled = !isInitialized
@@ -124,6 +127,11 @@ class DemoActivity : AppCompatActivity() {
         viewModel.isBanLoaded.observe(this) { isLoaded ->
             btnShowBan.isEnabled = isLoaded
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.unSubscribeEvents()
     }
 
 }

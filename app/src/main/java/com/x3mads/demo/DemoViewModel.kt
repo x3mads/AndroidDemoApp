@@ -6,14 +6,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Log
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.etermax.xmediator.core.api.Banner
 import com.etermax.xmediator.core.api.entities.CMPDebugGeography
 import com.etermax.xmediator.core.api.entities.CMPDebugSettings
 import com.etermax.xmediator.core.api.entities.ConsentInformation
@@ -22,7 +20,6 @@ import com.etermax.xmediator.core.api.entities.InitSettings
 import com.etermax.xmediator.core.api.entities.LoadResult
 import com.etermax.xmediator.core.api.entities.ShowError
 import com.etermax.xmediator.core.api.entities.UserProperties
-import com.x3mads.android.xmediator.core.api.BannerAds
 import com.x3mads.android.xmediator.core.api.InterstitialAds
 import com.x3mads.android.xmediator.core.api.RewardedAds
 import com.x3mads.android.xmediator.core.api.XMediatorAds
@@ -52,8 +49,7 @@ class DemoViewModel : ViewModel() {
     private val _isRewLoaded = MutableLiveData<Boolean>()
     val isRewLoaded: LiveData<Boolean> get() = _isRewLoaded
 
-    private val _isBanLoaded = MutableLiveData<Boolean>()
-    val isBanLoaded: LiveData<Boolean> get() = _isBanLoaded
+    val isBanLoaded: LiveData<Boolean> get() = BannerAdHelper.BanLoaded
 
     private val _isInitialized = MutableLiveData<Boolean>()
     val isInitialized: LiveData<Boolean> get() = _isInitialized
@@ -69,7 +65,6 @@ class DemoViewModel : ViewModel() {
         _isIttLoaded.value = false
         _isRewLoaded.value = false
         _isInitialized.value = false
-        _isBanLoaded.value = false
     }
 
     fun onInitButtonClick(activity: Activity) {
@@ -92,7 +87,7 @@ class DemoViewModel : ViewModel() {
             ),
             initCallback = {
                 _isInitialized.value = true
-                loadBanner()
+                createBanner()
                 loadItt(activity)
                 loadRew(activity)
                 Log.d("DemoView", "Initialization complete!")
@@ -117,17 +112,14 @@ class DemoViewModel : ViewModel() {
         return consentInformation
     }
 
-    fun onShowBanner(container: ViewGroup) {
-        val placementId = bannerPlacementId
-        val view = if (placementId != null) XMediatorAds.Banner.getView(placementId) else null
-        if (view == null) {
-            Log.e("DemoView", "Error showing banner, not created")
-        } else {
-            val parentView = view.parent as? ViewGroup
-            if (parentView == container) return
-            parentView?.removeView(view)
-            container.addView(view)
+    private fun createBanner() {
+        bannerPlacementId?.let {
+            BannerAdHelper.createBannerAd(it)
         }
+    }
+
+    fun onShowBanner(container: ViewGroup) {
+        bannerPlacementId?.let { BannerAdHelper.showBannerAd(it, container) }
     }
 
     fun onShowItt(activity: Activity) {
@@ -238,27 +230,12 @@ class DemoViewModel : ViewModel() {
         Runtime.getRuntime().exit(0)
     }
 
-    private fun loadBanner() {
-        Log.d("DemoView", "Banner onLoad")
-        XMediatorAds.Banner.addListener(object : BannerAds.Listener {
+    fun subscribeEvents() {
+        BannerAdHelper.registerListener()
+    }
 
-            override fun onImpression(placementId: String, impressionData: ImpressionData) {
-                Log.d("DemoView", "Banner impression ecpm: ${impressionData.ecpm}")
-            }
-
-            override fun onLoaded(placementId: String, loadResult: LoadResult) {
-                _isBanLoaded.value = true
-                Log.d("DemoView", "Banner loaded")
-            }
-
-            override fun onClicked(placementId: String) {
-                Log.d("DemoView", "Banner clicked")
-            }
-        })
-        val size = Banner.Size.Phone /* or Banner.Size.Tablet */
-        bannerPlacementId?.let {
-            XMediatorAds.Banner.create(it, size)
-        }
+    fun unSubscribeEvents() {
+        BannerAdHelper.unregisterListener()
     }
 
     private fun loadItt(activity: Activity) {
