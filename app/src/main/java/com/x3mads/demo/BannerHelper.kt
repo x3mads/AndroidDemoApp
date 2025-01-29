@@ -24,8 +24,9 @@ object BannerAdHelper {
     }
 
     // Use on your onCreate
-    fun showBannerAd(bannerAdPlacementId: String, container: ViewGroup) {
+    fun showBannerAd(bannerAdPlacementId: String, container: ViewGroup, adSpace: String) {
         Log.d(TAG, "Showing banner")
+        XMediatorAds.Banner.setAdSpace(bannerAdPlacementId, adSpace)
         val view = XMediatorAds.Banner.getView(bannerAdPlacementId)
         if (view != null) {
             val parentView = view.parent as? ViewGroup
