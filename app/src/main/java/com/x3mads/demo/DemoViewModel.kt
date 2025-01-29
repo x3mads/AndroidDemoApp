@@ -20,6 +20,9 @@ import com.etermax.xmediator.core.api.entities.UserProperties
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.x3mads.android.xmediator.core.api.XMediatorAds
+import com.x3mads.demo.ads.BannerHelper
+import com.x3mads.demo.ads.InterstitialHelper
+import com.x3mads.demo.ads.RewardedHelper
 import kotlin.reflect.KMutableProperty0
 
 private const val x3mAppKey = "3-15"
@@ -38,7 +41,7 @@ private const val lpInterstitialPlacementId = "3-181/1154"
 private const val lpRewardedPlacementId = "3-181/1155"
 
 class DemoViewModel : ViewModel() {
-    val isBanLoaded: LiveData<Boolean> get() = BannerAdHelper.BanLoaded
+    val isBanLoaded: LiveData<Boolean> get() = BannerHelper.BanLoaded
     val isIttLoaded: LiveData<Boolean> get() = InterstitialHelper.IttLoaded
     val isRewLoaded: LiveData<Boolean> get() = RewardedHelper.RewLoaded
     val onMessage: LiveData<String> get() = _onMessage
@@ -110,7 +113,7 @@ class DemoViewModel : ViewModel() {
     }
 
     private fun createBanner() {
-        bannerPlacementId?.let { BannerAdHelper.createBannerAd(it) }
+        bannerPlacementId?.let { BannerHelper.createBannerAd(it) }
     }
 
     private fun loadItt() {
@@ -122,7 +125,7 @@ class DemoViewModel : ViewModel() {
     }
 
     fun onShowBanner(container: ViewGroup) {
-        bannerPlacementId?.let { BannerAdHelper.showBannerAd(it, container, adSpace) }
+        bannerPlacementId?.let { BannerHelper.showBannerAd(it, container, adSpace) }
     }
 
     fun onShowItt(activity: Activity) {
@@ -224,7 +227,7 @@ class DemoViewModel : ViewModel() {
     }
 
     fun subscribeEvents() {
-        BannerAdHelper.registerListener()
+        BannerHelper.registerListener()
         InterstitialHelper.registerListener()
         RewardedHelper.registerListener()
         InterstitialHelper.notifiedEvent = notifiedEvent
@@ -232,7 +235,7 @@ class DemoViewModel : ViewModel() {
     }
 
     fun unSubscribeEvents() {
-        BannerAdHelper.unregisterListener()
+        BannerHelper.unregisterListener()
         InterstitialHelper.unregisterListener()
         RewardedHelper.unregisterListener()
         InterstitialHelper.notifiedEvent = {}

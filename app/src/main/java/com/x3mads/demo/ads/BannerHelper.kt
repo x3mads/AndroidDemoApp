@@ -1,4 +1,4 @@
-package com.x3mads.demo
+package com.x3mads.demo.ads
 
 import android.util.Log
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import com.etermax.xmediator.core.api.entities.LoadResult
 import com.x3mads.android.xmediator.core.api.BannerAds
 import com.x3mads.android.xmediator.core.api.XMediatorAds
 
-object BannerAdHelper {
+object BannerHelper {
     private const val TAG = "DemoApp:Banner"
     val BanLoaded = MutableLiveData<Boolean>()
 

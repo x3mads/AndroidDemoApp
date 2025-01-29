@@ -1,4 +1,4 @@
-package com.x3mads.demo
+package com.x3mads.demo.ads
 
 import android.app.Activity
 import android.util.Log
