@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckedTextView
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 
@@ -127,6 +128,11 @@ class DemoActivity : AppCompatActivity() {
         viewModel.isBanLoaded.observe(this) { isLoaded ->
             btnShowBan.isEnabled = isLoaded
         }
+
+        viewModel.onMessage.observe(this) { message ->
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     override fun onDestroy() {
