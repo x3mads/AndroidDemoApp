@@ -52,12 +52,15 @@ class DemoViewModel : ViewModel() {
     private val _onMessage = MutableLiveData<String>()
     private val adSpace: String = "MainActivity"
 
-    private var appKey: String? = null
-    private var bannerPlacementId: String? = null
-    private var interstitialPlacementId: String? = null
-    private var rewardedPlacementId: String? = null
-    private var fakeEeaRegion: Boolean = false
-    private var cmpEnabled: Boolean = false
+    companion object{
+        private var appKey: String? = null
+        private var bannerPlacementId: String? = null
+        private var interstitialPlacementId: String? = null
+        private var rewardedPlacementId: String? = null
+        private var fakeEeaRegion: Boolean = false
+        private var cmpEnabled: Boolean = false
+    }
+
     private var notifiedEvent: (message: String) -> Unit = {}
 
     init {
