@@ -24,6 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.x3mads.demo.OtherActivity"
+            android:theme="@style/Theme.X3MDemo">
+        </activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.x3mads.demo
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -28,6 +29,7 @@ class DemoActivity : AppCompatActivity() {
     private lateinit var clMediatorWarning: View
     private lateinit var btnResetApp: View
     private lateinit var clCmp: View
+    private lateinit var btnOtherActivity: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +49,7 @@ class DemoActivity : AppCompatActivity() {
         clMediatorWarning = findViewById(R.id.cl_mediator_warning)
         btnResetApp = findViewById(R.id.btn_reset_app)
         clCmp = findViewById(R.id.cl_cmp)
+        btnOtherActivity = findViewById(R.id.btn_launch_other)
 
         ctvFakeEeaRegion.isEnabled = false
 
@@ -71,6 +74,7 @@ class DemoActivity : AppCompatActivity() {
         btnCmpReset.setOnClickListener { viewModel.onResetCmp(this) }
         btnDebuggingSuite.setOnClickListener { viewModel.onDebuggingSuiteButtonClick(this) }
         btnResetApp.setOnClickListener { viewModel.resetApp(this) }
+        btnOtherActivity.setOnClickListener { startActivity(Intent(this, OtherActivity::class.java)) }
 
         ArrayAdapter.createFromResource(
             this,
