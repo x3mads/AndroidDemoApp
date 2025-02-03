@@ -1,187 +1,267 @@
 package com.x3mads.demo
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.util.Log
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.etermax.xmediator.core.api.Banner
-import com.etermax.xmediator.core.api.entities.ImpressionData
+import com.etermax.xmediator.core.api.entities.CMPDebugGeography
+import com.etermax.xmediator.core.api.entities.CMPDebugSettings
+import com.etermax.xmediator.core.api.entities.ConsentInformation
 import com.etermax.xmediator.core.api.entities.InitSettings
-import com.etermax.xmediator.core.api.entities.LoadResult
-import com.etermax.xmediator.core.api.entities.ShowError
 import com.etermax.xmediator.core.api.entities.UserProperties
-import com.x3mads.android.xmediator.core.api.BannerAds
-import com.x3mads.android.xmediator.core.api.InterstitialAds
-import com.x3mads.android.xmediator.core.api.RewardedAds
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.x3mads.android.xmediator.core.api.XMediatorAds
+import com.x3mads.demo.ads.BannerHelper
+import com.x3mads.demo.ads.InterstitialHelper
+import com.x3mads.demo.ads.RewardedHelper
+import kotlin.reflect.KMutableProperty0
 
-private const val bannerPlacementId = "4-16/407"
-private const val interstitialPlacementId = "4-16/408"
-private const val rewardedPlacementId = "4-16/409"
+private const val x3mAppKey = "3-15"
+private const val x3mBannerPlacementId = "3-15/28"
+private const val x3mInterstitialPlacementId = "3-15/26"
+private const val x3mRewardedPlacementId = "3-15/27"
+
+private const val maxAppKey = "3-180"
+private const val maxBannerPlacementId = "3-180/1150"
+private const val maxInterstitialPlacementId = "3-180/1151"
+private const val maxRewardedPlacementId = "3-180/1152"
+
+private const val lpAppKey = "3-181"
+private const val lpBannerPlacementId = "3-181/1153"
+private const val lpInterstitialPlacementId = "3-181/1154"
+private const val lpRewardedPlacementId = "3-181/1155"
 
 class DemoViewModel : ViewModel() {
-    // MutableLiveData to observe the state of load actions
-    private val _isIttLoaded = MutableLiveData<Boolean>()
-    val isIttLoaded: LiveData<Boolean> get() = _isIttLoaded
-
-    private val _isRewLoaded = MutableLiveData<Boolean>()
-    val isRewLoaded: LiveData<Boolean> get() = _isRewLoaded
-
-    private val _isBanLoaded = MutableLiveData<Boolean>()
-    val isBanLoaded: LiveData<Boolean> get() = _isBanLoaded
+    val isBanLoaded: LiveData<Boolean> get() = BannerHelper.BanLoaded
+    val isIttLoaded: LiveData<Boolean> get() = InterstitialHelper.IttLoaded
+    val isRewLoaded: LiveData<Boolean> get() = RewardedHelper.RewLoaded
+    val onMessage: LiveData<String> get() = _onMessage
 
     private val _isInitialized = MutableLiveData<Boolean>()
     val isInitialized: LiveData<Boolean> get() = _isInitialized
 
-    private var currentPlacementId: String? = null
+    private val _onMessage = MutableLiveData<String>()
+    private val adSpace: String = "MainActivity"
+
+    private var appKey: String? = null
+    private var bannerPlacementId: String? = null
+    private var interstitialPlacementId: String? = null
+    private var rewardedPlacementId: String? = null
+    private var fakeEeaRegion: Boolean = false
+    private var cmpEnabled: Boolean = false
+    private var notifiedEvent: (message: String) -> Unit = {}
 
     init {
-        // Initialize flags
-        _isIttLoaded.value = false
-        _isRewLoaded.value = false
         _isInitialized.value = false
-        _isBanLoaded.value = false
+        notifiedEvent = {
+            _onMessage.value = it
+        }
     }
 
     fun onInitButtonClick(activity: Activity) {
+        val appKey = appKey
+        if (appKey == null) {
+            Toast.makeText(activity, "Select a mediator first", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         XMediatorAds.startWith(
             activity = activity,
-            appKey = "4-16",
+            appKey = appKey,
             initSettings = InitSettings(
                 userProperties = UserProperties(
-                    userId = "automationUser",
+                    userId = "your-user-id",
                 ),
+                consentInformation = getConsentInformation(),
                 verbose = true,
                 test = true,
             ),
             initCallback = {
                 _isInitialized.value = true
+                createBanner()
+                loadItt()
+                loadRew()
                 Log.d("DemoView", "Initialization complete!")
             },
         )
     }
 
-    fun onLoadBanner() {
-        // Handle Load Banner button click
-        Log.d("DemoView", "Banner onLoad")
-        XMediatorAds.Banner.addListener(object : BannerAds.Listener {
+    private fun getConsentInformation(): ConsentInformation? {
+        var consentInformation: ConsentInformation? = null
+        var cmpDebugSettings: CMPDebugSettings? = null
 
-            override fun onImpression(placementId: String, impressionData: ImpressionData) {
-                Log.d("DemoView", "Banner impression ecpm: ${impressionData.ecpm}")
-            }
+        if (fakeEeaRegion)
+            cmpDebugSettings = CMPDebugSettings(
+                cmpDebugGeography = CMPDebugGeography.EEA
+            )
 
-            override fun onLoaded(placementId: String, loadResult: LoadResult) {
-                _isBanLoaded.value = true
-                Log.d("DemoView", "Banner loaded")
-            }
+        if (cmpEnabled)
+            consentInformation = ConsentInformation(
+                isCMPAutomationEnabled = true,
+                cmpDebugSettings = cmpDebugSettings
+            )
+        return consentInformation
+    }
 
-            override fun onClicked(placementId: String) {
-                Log.d("DemoView", "Banner clicked")
-            }
-        })
-        val size = Banner.Size.Phone /* or Banner.Size.Tablet */
-        currentPlacementId?.let {
-            XMediatorAds.Banner.create(it, size)
-        }
+    private fun createBanner() {
+        bannerPlacementId?.let { BannerHelper.createBannerAd(it) }
+    }
+
+    private fun loadItt() {
+        interstitialPlacementId?.let { InterstitialHelper.loadInterstitialAd(it) }
+    }
+
+    private fun loadRew() {
+        rewardedPlacementId?.let { RewardedHelper.loadRewardedAd(it) }
     }
 
     fun onShowBanner(container: ViewGroup) {
-        val placementId = currentPlacementId
-        val view = if (placementId != null) XMediatorAds.Banner.getView(placementId) else null
-        if (view == null) {
-            Log.e("DemoView", "Error showing banner, not created")
-        } else {
-            val parentView = view.parent as? ViewGroup
-            if (parentView == container) return
-            parentView?.removeView(view)
-            container.addView(view)
-        }
-    }
-
-    fun onLoadItt() {
-        currentPlacementId?.let {
-            XMediatorAds.Interstitial.addListener(interstitialListener)
-            XMediatorAds.Interstitial.load(it)
-        }
+        bannerPlacementId?.let { BannerHelper.showBannerAd(it, container, adSpace) }
     }
 
     fun onShowItt(activity: Activity) {
-        currentPlacementId?.let {
-            if (XMediatorAds.Interstitial.isReady(it))
-                XMediatorAds.Interstitial.show(it, activity)
-            else Log.e("DemoView", "Error showing interstitial, not ready")
-        }
-    }
-
-    fun onLoadRew() {
-        currentPlacementId?.let {
-            XMediatorAds.Rewarded.addListener(rewardedListener)
-            XMediatorAds.Rewarded.load(it)
-        }
+        InterstitialHelper.showItt(activity, adSpace)
     }
 
     fun onShowRew(activity: Activity) {
-        currentPlacementId?.let {
-            if (XMediatorAds.Rewarded.isReady(it))
-                XMediatorAds.Rewarded.show(it, activity)
-            else Log.e("DemoView", "Error showing rewarded, not ready")
+        RewardedHelper.showRewarded(activity, adSpace)
+    }
+
+    fun onMediatorSelected(mediator: String) {
+        Log.i("DemoView", "Selected mediator: $mediator")
+        when (mediator) {
+            "X3M" -> {
+                appKey = x3mAppKey
+                bannerPlacementId = x3mBannerPlacementId
+                interstitialPlacementId = x3mInterstitialPlacementId
+                rewardedPlacementId = x3mRewardedPlacementId
+            }
+
+            "MAX" -> {
+                appKey = maxAppKey
+                bannerPlacementId = maxBannerPlacementId
+                interstitialPlacementId = maxInterstitialPlacementId
+                rewardedPlacementId = maxRewardedPlacementId
+            }
+
+            "LEVEL PLAY" -> {
+                appKey = lpAppKey
+                bannerPlacementId = lpBannerPlacementId
+                interstitialPlacementId = lpInterstitialPlacementId
+                rewardedPlacementId = lpRewardedPlacementId
+            }
+
+            else -> {
+                // Do nothing
+            }
         }
     }
 
-    fun setPlacementId(placementId: String) {
-        currentPlacementId = placementId
+    fun onCmpEnabledChanged(checked: Boolean) {
+        cmpEnabled = checked
     }
 
-    private val interstitialListener = object : InterstitialAds.Listener {
-        override fun onLoaded(placementId: String, loadResult: LoadResult) {
-            _isIttLoaded.value = true
-            Log.d("DemoView", "Interstitial loaded. Placement $placementId, result: $loadResult")
-        }
+    fun onFakeEeaRegionChanged(checked: Boolean) {
+        fakeEeaRegion = checked
+    }
 
-        override fun onShowed(placementId: String) {
-            Log.d("DemoView", "Interstitial shown: $placementId.")
-        }
+    fun onShowCmpForm(activity: Activity) {
+        XMediatorAds.CMPProvider.showPrivacyForm(activity) { error ->
+            if (error != null) {
+                Log.d("PrivacyForm", "Error: $error")
+            }
 
-        override fun onFailedToShow(placementId: String, showError: ShowError) {
-            Log.d("DemoView", "Interstitial failed to show $placementId, ${showError.message}")
-        }
-
-        override fun onDismissed(placementId: String) {
-            Log.d("DemoView", "Interstitial dismissed for placementId: $placementId")
-        }
-
-        override fun onImpression(placementId: String, impressionData: ImpressionData) {
-            Log.d("DemoView", "Interstitial impression for placementId: $placementId, data: $impressionData")
-        }
-
-        override fun onClicked(placementId: String) {
-            Log.d("DemoView", "Interstitial clicked for placementId: $placementId")
+            Log.d("PrivacyForm", "showPrivacyForm complete!")
         }
     }
 
-    private val rewardedListener = object : RewardedAds.Listener {
+    fun onResetCmp(context: Context) {
+        XMediatorAds.CMPProvider.reset(context)
+    }
 
-        override fun onLoaded(placementId: String, loadResult: LoadResult) {
-            _isRewLoaded.value = true
-            Log.d("DemoView", "Rewarded loaded. Placement $placementId, result: $loadResult")
+    fun isCmpProviderAvailable(context: Context): Boolean {
+        return XMediatorAds.CMPProvider.isPrivacyFormAvailable(context)
+    }
+
+    fun onCustomMediatorSelected(context: Context, onComplete: () -> Unit) {
+        val inputFields = listOf(
+            "App Key" to ::appKey,
+            "Banner Placement ID" to ::bannerPlacementId,
+            "Interstitial Placement ID" to ::interstitialPlacementId,
+            "Rewarded Placement ID" to ::rewardedPlacementId
+        )
+
+        val inputLayouts = inputFields.map { (label, property) ->
+            TextInputLayout(context).apply {
+                hint = label
+                addView(TextInputEditText(context).apply {
+                    setText(property.get() ?: "")
+                })
+            }
         }
 
-        override fun onDismissed(placementId: String) {
-            Log.d("DemoView", "Rewarded dismissed for placementId: $placementId")
-        }
+        showCustomMediatorDialog(context, inputLayouts, inputFields, onComplete)
+    }
 
-        override fun onEarnedReward(placementId: String) {
-            Log.d("DemoView", "Rewarded earned for placementId: $placementId")
-        }
+    fun onDebuggingSuiteButtonClick(activity: Activity) {
+        XMediatorAds.openDebuggingSuite(activity)
+    }
 
-        override fun onFailedToShow(placementId: String, showError: ShowError) {
-            Log.d("DemoView", "Rewarded failed to show $placementId, ${showError.message}")
-        }
+    fun resetApp(demoActivity: DemoActivity) {
+        val packageManager: PackageManager = demoActivity.packageManager
+        val intent: Intent? = packageManager.getLaunchIntentForPackage(demoActivity.packageName)
+        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        demoActivity.startActivity(intent)
+        demoActivity.finish()
+        Runtime.getRuntime().exit(0)
+    }
 
-        override fun onShowed(placementId: String) {
-            Log.d("DemoView", "Rewarded shown for placementId: $placementId")
-        }
+    fun subscribeEvents() {
+        BannerHelper.registerListener()
+        InterstitialHelper.registerListener()
+        RewardedHelper.registerListener()
+        InterstitialHelper.notifiedEvent = notifiedEvent
+        RewardedHelper.notifiedEvent = notifiedEvent
+    }
+
+    fun unSubscribeEvents() {
+        BannerHelper.unregisterListener()
+        InterstitialHelper.unregisterListener()
+        RewardedHelper.unregisterListener()
+        InterstitialHelper.notifiedEvent = {}
+        RewardedHelper.notifiedEvent = {}
+    }
+
+    private fun showCustomMediatorDialog(
+        context: Context,
+        inputs: List<TextInputLayout>,
+        inputFields: List<Pair<String, KMutableProperty0<String?>>>,
+        onComplete: () -> Unit
+    ) {
+        AlertDialog.Builder(context)
+            .setTitle("Custom Mediator Settings")
+            .setView(LinearLayout(context).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding(32, 16, 32, 0)
+                inputs.forEach { addView(it) }
+            })
+            .setPositiveButton("OK") { _, _ ->
+                inputFields.forEachIndexed { index, (_, property) ->
+                    property.set(inputs[index].editText?.text?.toString())
+                }
+                onComplete()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 }

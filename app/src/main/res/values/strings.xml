@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">X3M Demo</string>
+    <string name="label_mediator">Mediator</string>
+    <string name="label_cmp_settings">CMP Settings</string>
+    <string name="label_automatic_cmp">Automatic CMP</string>
+    <string name="label_fake_eea_region">Fake EEA region</string>
+    <string name="label_init_sdk">Init SDK</string>
+    <string name="label_cmp">CMP</string>
+    <string name="label_show_form">Show Form</string>
+    <string name="label_reset">Reset</string>
+    <string name="label_debugging_suite">Debugging Suite</string>
+    <string name="reopen_message">To switch Mediator, you must reopen the app</string>
+    <string name="label_show_itt">Show Interstitial</string>
+    <string name="label_show_rew">Show Rewarded</string>
+    <string name="label_show_banner">Show Banner</string>
+    <array name="mediators">
+        <item />
+        <item>X3M</item>
+        <item>MAX</item>
+        <item>LEVEL PLAY</item>
+        <item>CUSTOM</item>
+    </array>
 </resources>
