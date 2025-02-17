@@ -267,4 +267,9 @@ class DemoViewModel : ViewModel() {
             .setNegativeButton("Cancel", null)
             .show()
     }
+
+    fun onResume(container: ViewGroup) {
+        if (_isInitialized.value == true)
+            bannerPlacementId?.let { BannerHelper.showBannerAd(it, container, adSpace) }
+    }
 }

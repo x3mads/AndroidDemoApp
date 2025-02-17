@@ -3,6 +3,7 @@ package com.x3mads.demo
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -30,6 +31,7 @@ class DemoActivity : AppCompatActivity() {
     private lateinit var btnResetApp: View
     private lateinit var clCmp: View
     private lateinit var btnOtherActivity: Button
+    private lateinit var container: ViewGroup
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,11 +52,12 @@ class DemoActivity : AppCompatActivity() {
         btnResetApp = findViewById(R.id.btn_reset_app)
         clCmp = findViewById(R.id.cl_cmp)
         btnOtherActivity = findViewById(R.id.btn_launch_other)
+        container = findViewById(R.id.banner_footer)
 
         ctvFakeEeaRegion.isEnabled = false
 
         btnInit.setOnClickListener { viewModel.onInitButtonClick(this) }
-        btnShowBan.setOnClickListener { viewModel.onShowBanner(findViewById(R.id.banner_footer)) }
+        btnShowBan.setOnClickListener { viewModel.onShowBanner(container) }
         btnShowItt.setOnClickListener { viewModel.onShowItt(this) }
         btnShowRew.setOnClickListener { viewModel.onShowRew(this) }
         ctvAutomaticCmp.setOnClickListener {
@@ -139,9 +142,9 @@ class DemoActivity : AppCompatActivity() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.unSubscribeEvents()
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume(container)
     }
 
     override fun onDestroy() {
