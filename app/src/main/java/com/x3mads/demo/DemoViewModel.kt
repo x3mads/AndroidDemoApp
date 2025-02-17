@@ -245,6 +245,11 @@ class DemoViewModel : ViewModel() {
         RewardedHelper.notifiedEvent = {}
     }
 
+    fun onResume(container: ViewGroup) {
+        if (_isInitialized.value == true)
+            bannerPlacementId?.let { BannerHelper.showBannerAd(it, container, adSpace) }
+    }
+
     private fun showCustomMediatorDialog(
         context: Context,
         inputs: List<TextInputLayout>,
