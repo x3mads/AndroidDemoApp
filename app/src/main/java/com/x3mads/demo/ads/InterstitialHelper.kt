@@ -38,7 +38,7 @@ object InterstitialHelper {
 
     fun showItt(activity: Activity, adSpace: String) {
         if (XMediatorAds.Interstitial.isReady())
-            activity.runOnUiThread { XMediatorAds.Interstitial.show(activity, adSpace) }
+            XMediatorAds.Interstitial.show(activity, adSpace)
         else {
             notifiedEvent("Interstitial not ready")
             Log.e("DemoView", "Error showing interstitial, not ready")

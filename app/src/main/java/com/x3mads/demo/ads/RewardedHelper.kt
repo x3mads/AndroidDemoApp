@@ -37,7 +37,7 @@ object RewardedHelper {
 
     fun showRewarded(activity: Activity, adSpace: String) {
         if (XMediatorAds.Rewarded.isReady())
-            activity.runOnUiThread { XMediatorAds.Rewarded.show(activity, adSpace) }
+            XMediatorAds.Rewarded.show(activity, adSpace)
         else {
             notifiedEvent("Rewarded not ready")
             Log.e("DemoView", "Error showing Rewarded, not ready")
