@@ -47,7 +47,8 @@ android {
 }
 
 dependencies {
-    implementation("com.x3mads.android.xmediator:core:1.91.0")
+    // -- Mediation Libraries --
+    implementation("com.x3mads.android.xmediator:core:1.94.0")
     implementation("com.x3mads.android.xmediator.mediation:renderer:2.1.1.6.0")
     implementation("com.x3mads.android.xmediator.mediation:applovin:13.1.0.0")
     implementation("com.x3mads.android.xmediator.mediation:ironsource:8.7.0.0")
@@ -64,9 +65,9 @@ dependencies {
     implementation("com.ironsource.adapters:applovinadapter:4.3.50")
     implementation("com.x3mads.android.xmediator.mediation:applovin:13.1.0.0")
     // chartboost
-    implementation("com.chartboost:chartboost-sdk:9.8.2")
+    implementation("com.chartboost:chartboost-sdk:9.8.3")
     implementation("com.ironsource.adapters:chartboostadapter:4.3.18")
-    implementation("com.applovin.mediation:chartboost-adapter:9.8.2.1")
+    implementation("com.applovin.mediation:chartboost-adapter:9.8.3.0")
     implementation("com.x3mads.android.xmediator.mediation:chartboost:9.8.2.0")
     // meta audience network
     implementation("com.facebook.android:audience-network-sdk:6.18.0")
@@ -102,14 +103,15 @@ dependencies {
     implementation("com.facebook.android:audience-network-sdk:6.18.0")
     implementation("com.google.ads.mediation:facebook:6.18.0.0")
     // mintegral
-    implementation("com.mbridge.msdk.oversea:mbridge_android_sdk:16.9.31")
-    implementation("com.ironsource.adapters:mintegraladapter:4.3.35")
+    implementation("com.mbridge.msdk.oversea:mbridge_android_sdk:16.9.41")
+    implementation("com.ironsource.adapters:mintegraladapter:4.3.36")
     implementation("com.applovin.mediation:mintegral-adapter:16.9.41.0")
-    implementation("com.x3mads.android.xmediator.mediation:mintegral:16.9.31.0")
+    implementation("com.x3mads.android.xmediator.mediation:mintegral:16.9.41.0")
     // mobilefuse
-    implementation("com.mobilefuse.sdk:mobilefuse-sdk-core:1.8.2")
-    implementation("com.applovin.mediation:mobilefuse-adapter:1.8.2.2")
-    implementation("com.x3mads.android.xmediator.mediation:mobile-fuse:1.8.2.0")
+    implementation("com.mobilefuse.sdk:mobilefuse-sdk-core:1.9.0")
+    implementation("com.unity3d.ads-mediation:mobilefuse-adapter:4.3.5")
+    implementation("com.applovin.mediation:mobilefuse-adapter:1.9.0.0")
+    implementation("com.x3mads.android.xmediator.mediation:mobile-fuse:1.9.0.0")
     // moloco
     implementation("com.moloco.sdk.adapters:adapter:3.6.1")
     implementation("com.unity3d.ads-mediation:moloco-adapter:4.3.12")
@@ -120,10 +122,15 @@ dependencies {
     implementation("com.applovin.mediation:ogury-presage-adapter:5.8.0.0")
     implementation("com.x3mads.android.xmediator.mediation:ogury:5.8.0.0")
     // pangle
-    implementation("com.pangle.global:ads-sdk:6.5.0.3")
+    implementation("com.pangle.global:ads-sdk:6.5.0.4")
     implementation("com.ironsource.adapters:pangleadapter:4.3.35")
-    implementation("com.applovin.mediation:bytedance-adapter:6.5.0.3.0")
+    implementation("com.applovin.mediation:bytedance-adapter:6.5.0.4.0")
     implementation("com.x3mads.android.xmediator.mediation:pangle:6.5.0.3.0")
+    // bidmachine
+    implementation("io.bidmachine:ads:3.1.1")
+    implementation("com.unity3d.ads-mediation:bidmachine-adapter:4.3.10")
+    implementation("com.applovin.mediation:bidmachine-adapter:3.1.1.1")
+    implementation("com.x3mads.android.xmediator.mediation:stack:3.1.1.0")
     // tappx
     implementation("com.tappx.sdk.android:tappx-sdk:4.0.8")
     implementation("com.x3mads.android.xmediator.mediation:tappx:4.0.6.3")
