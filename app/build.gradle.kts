@@ -47,6 +47,8 @@ android {
 }
 
 dependencies {
+     // Note: Use the picker to select your dependencies https://docs.x3mads.com/metamediation/android/3-Add_x3m_sdk/
+
     // -- Mediation Libraries --
     implementation("com.x3mads.android.xmediator:core:1.95.0")
     implementation("com.x3mads.android.xmediator.mediation:renderer:2.1.1.6.0")
