@@ -50,10 +50,10 @@ dependencies {
     // Note: Use the picker to select your dependencies https://docs.x3mads.com/metamediation/android/3-Add_x3m_sdk/
 
     // -- Mediation Libraries --
-    implementation("com.x3mads.android.xmediator:core:1.114.0")
+    implementation("com.x3mads.android.xmediator:core:1.115.2")
     implementation("com.x3mads.android.xmediator.mediation:renderer:2.1.1.6.0")
     implementation("com.x3mads.android.xmediator.mediation:applovin:13.3.1.2")
-    implementation("com.x3mads.android.xmediator.mediation:ironsource:8.10.0.0")
+    implementation("com.x3mads.android.xmediator.mediation:ironsource:8.10.0.2")
 
     // -- Ad Networks --
     // amazon publisher services
@@ -67,19 +67,19 @@ dependencies {
     implementation("com.unity3d.ads-mediation:applovin-adapter:4.3.54")
     implementation("com.x3mads.android.xmediator.mediation:applovin:13.3.1.2")
     // chartboost
-    implementation("com.chartboost:chartboost-sdk:9.8.3")
-    implementation("com.unity3d.ads-mediation:chartboost-adapter:4.3.19")
-    implementation("com.applovin.mediation:chartboost-adapter:9.8.3.0")
-    implementation("com.x3mads.android.xmediator.mediation:chartboost:9.8.3.0")
+    implementation("com.chartboost:chartboost-sdk:9.9.1")
+    implementation("com.unity3d.ads-mediation:chartboost-adapter:4.3.21")
+    implementation("com.applovin.mediation:chartboost-adapter:9.9.1.0")
+    implementation("com.x3mads.android.xmediator.mediation:chartboost:9.9.1.0")
     // meta audience network
     implementation("com.facebook.android:audience-network-sdk:6.20.0")
     implementation("com.unity3d.ads-mediation:facebook-adapter:4.3.50")
     implementation("com.applovin.mediation:facebook-adapter:6.20.0.0")
     implementation("com.x3mads.android.xmediator.mediation:facebook:6.20.0.0")
     // dt exchange
-    implementation("com.fyber:marketplace-sdk:8.3.7")
-    implementation("com.unity3d.ads-mediation:fyber-adapter:4.3.38")
-    implementation("com.applovin.mediation:fyber-adapter:8.3.7.0")
+    implementation("com.fyber:marketplace-sdk:8.3.8")
+    implementation("com.unity3d.ads-mediation:fyber-adapter:4.3.39")
+    implementation("com.applovin.mediation:fyber-adapter:8.3.8.0")
     implementation("com.x3mads.android.xmediator.mediation:fyber:8.3.7.0")
     // google ads
     implementation("com.google.android.gms:play-services-ads:24.4.0")
@@ -100,12 +100,12 @@ dependencies {
     // ironsource
     implementation("com.unity3d.ads-mediation:mediation-sdk:8.10.0")
     implementation("com.applovin.mediation:ironsource-adapter:8.10.0.0.0")
-    implementation("com.x3mads.android.xmediator.mediation:ironsource:8.10.0.0")
+    implementation("com.x3mads.android.xmediator.mediation:ironsource:8.10.0.2")
     // mintegral
-    implementation("com.mbridge.msdk.oversea:mbridge_android_sdk:16.9.71")
-    implementation("com.unity3d.ads-mediation:mintegral-adapter:4.3.41")
-    implementation("com.applovin.mediation:mintegral-adapter:16.9.71.0")
-    implementation("com.x3mads.android.xmediator.mediation:mintegral:16.9.71.0")
+    implementation("com.mbridge.msdk.oversea:mbridge_android_sdk:16.9.81")
+    implementation("com.unity3d.ads-mediation:mintegral-adapter:4.3.44")
+    implementation("com.applovin.mediation:mintegral-adapter:16.9.81.0")
+    implementation("com.x3mads.android.xmediator.mediation:mintegral:16.9.81.0")
     // mobilefuse
     implementation("com.mobilefuse.sdk:mobilefuse-sdk-core:1.9.2")
     implementation("com.unity3d.ads-mediation:mobilefuse-adapter:4.3.7")
@@ -123,9 +123,9 @@ dependencies {
     implementation("com.x3mads.android.xmediator.mediation:ogury:6.0.1.0")
     // pangle
     implementation("com.pangle.global:pag-sdk:7.3.0.4")
-    implementation("com.unity3d.ads-mediation:pangle-adapter:4.3.46")
+    implementation("com.unity3d.ads-mediation:pangle-adapter:4.3.47")
     implementation("com.applovin.mediation:bytedance-adapter:7.3.0.4.0")
-    implementation("com.x3mads.android.xmediator.mediation:pangle:7.3.0.3.0")
+    implementation("com.x3mads.android.xmediator.mediation:pangle:7.3.0.4.0")
     // bidmachine
     implementation("io.bidmachine:ads:3.3.0")
     implementation("com.unity3d.ads-mediation:bidmachine-adapter:4.3.14")
