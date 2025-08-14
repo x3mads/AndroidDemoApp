@@ -13,11 +13,13 @@
     <string name="label_show_itt">Show Interstitial</string>
     <string name="label_show_rew">Show Rewarded</string>
     <string name="label_show_banner">Show Banner</string>
+    <string name="label_show_apo">SHOW APPOPEN</string>
     <array name="mediators">
         <item />
         <item>X3M</item>
         <item>MAX</item>
         <item>LEVEL PLAY</item>
+        <item>GOOGLE ADS</item>
         <item>CUSTOM</item>
     </array>
 </resources>

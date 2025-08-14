@@ -19,6 +19,7 @@ class DemoActivity : AppCompatActivity() {
     private lateinit var btnShowBan: Button
     private lateinit var btnShowItt: Button
     private lateinit var btnShowRew: Button
+    private lateinit var btnShowApo: Button
     private lateinit var spMediator: Spinner
     private lateinit var ctvAutomaticCmp: CheckedTextView
     private lateinit var ctvFakeEeaRegion: CheckedTextView
@@ -38,6 +39,7 @@ class DemoActivity : AppCompatActivity() {
         btnShowBan = findViewById(R.id.btn_show_ban)
         btnShowItt = findViewById(R.id.btn_show_itt)
         btnShowRew = findViewById(R.id.btn_show_rew)
+        btnShowApo = findViewById(R.id.btn_show_apo)
         spMediator = findViewById(R.id.sp_mediation)
         ctvAutomaticCmp = findViewById(R.id.ctv_cmp_enabled)
         ctvFakeEeaRegion = findViewById(R.id.ctv_fake_region)
@@ -54,6 +56,7 @@ class DemoActivity : AppCompatActivity() {
         btnShowBan.setOnClickListener { viewModel.onShowBanner(findViewById(R.id.banner_footer)) }
         btnShowItt.setOnClickListener { viewModel.onShowItt(this) }
         btnShowRew.setOnClickListener { viewModel.onShowRew(this) }
+        btnShowApo.setOnClickListener { viewModel.onShowApo(this) }
         ctvAutomaticCmp.setOnClickListener {
             ctvAutomaticCmp.isChecked = !ctvAutomaticCmp.isChecked
             ctvFakeEeaRegion.isEnabled = ctvAutomaticCmp.isChecked
@@ -127,6 +130,10 @@ class DemoActivity : AppCompatActivity() {
 
         viewModel.isBanLoaded.observe(this) { isLoaded ->
             btnShowBan.isEnabled = isLoaded
+        }
+
+        viewModel.isApoLoaded.observe(this) { isLoaded ->
+            btnShowApo.isEnabled = isLoaded
         }
 
         viewModel.onMessage.observe(this) { message ->
