@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -12,19 +11,15 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.etermax.xmediator.core.api.entities.CMPDebugGeography
-import com.etermax.xmediator.core.api.entities.CMPDebugSettings
-import com.etermax.xmediator.core.api.entities.ConsentInformation
-import com.etermax.xmediator.core.api.entities.InitSettings
-import com.etermax.xmediator.core.api.entities.UserProperties
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.x3mads.android.xmediator.core.api.XMediatorAds
 import com.x3mads.demo.ads.AppOpenHelper
 import com.x3mads.demo.ads.BannerHelper
 import com.x3mads.demo.ads.InterstitialHelper
 import com.x3mads.demo.ads.RewardedHelper
-import kotlin.reflect.KMutableProperty0
+import com.x3mads.demo.ads.XMediatorHelper
+import com.x3mads.demo.ads.XMediatorHelper.cmpEnabled
+import com.x3mads.demo.ads.XMediatorHelper.fakeEeaRegion
 
 private const val x3mAppKey = "4-16"
 private const val x3mBannerPlacementId = "4-16/91"
@@ -61,13 +56,6 @@ class DemoViewModel : ViewModel() {
     private val _onMessage = MutableLiveData<String>()
     private val adSpace: String = "MainActivity"
 
-    private var appKey: String? = null
-    private var bannerPlacementId: String? = null
-    private var interstitialPlacementId: String? = null
-    private var rewardedPlacementId: String? = null
-    private var appOpenPlacementId: String? = null
-    private var fakeEeaRegion: Boolean = false
-    private var cmpEnabled: Boolean = false
     private var notifiedEvent: (message: String) -> Unit = {}
 
     init {
@@ -78,120 +66,76 @@ class DemoViewModel : ViewModel() {
     }
 
     fun onInitButtonClick(activity: Activity) {
-        val appKey = appKey
+        val appKey = XMediatorHelper.getAppKey()
         if (appKey == null) {
             Toast.makeText(activity, "Select a mediator first", Toast.LENGTH_SHORT).show()
             return
         }
 
-        XMediatorAds.startWith(
+        XMediatorHelper.initialize(
             activity = activity,
-            appKey = appKey,
-            initSettings = InitSettings(
-                userProperties = UserProperties(
-                    userId = "your-user-id",
-                ),
-                consentInformation = getConsentInformation(),
-                verbose = true,
-                test = true,
-            ),
-            initCallback = {
+            onInitComplete = {
                 _isInitialized.value = true
-                loadApo()
-                createBanner()
-                loadItt()
-                loadRew()
-                Log.d("DemoView", "Initialization complete!")
-            },
+            }
         )
     }
 
-    private fun getConsentInformation(): ConsentInformation? {
-        var consentInformation: ConsentInformation? = null
-        var cmpDebugSettings: CMPDebugSettings? = null
-
-        if (fakeEeaRegion)
-            cmpDebugSettings = CMPDebugSettings(
-                cmpDebugGeography = CMPDebugGeography.EEA
-            )
-
-        if (cmpEnabled)
-            consentInformation = ConsentInformation(
-                isCMPAutomationEnabled = true,
-                cmpDebugSettings = cmpDebugSettings
-            )
-        return consentInformation
-    }
-
-    private fun createBanner() {
-        bannerPlacementId?.let { BannerHelper.createBannerAd(it) }
-    }
-
-    private fun loadItt() {
-        interstitialPlacementId?.let { InterstitialHelper.loadInterstitialAd(it) }
-    }
-
-    private fun loadRew() {
-        rewardedPlacementId?.let { RewardedHelper.loadRewardedAd(it) }
-    }
-
-    private fun loadApo() {
-        appOpenPlacementId?.let { AppOpenHelper.loadAppOpenAd(it) }
-    }
-
-    fun onShowBanner(container: ViewGroup) {
-        bannerPlacementId?.let { BannerHelper.showBannerAd(it, container, adSpace) }
+    fun onShowBanner(activity: Activity, container: ViewGroup) {
+        XMediatorHelper.showBanner(activity, container, adSpace)
     }
 
     fun onShowItt(activity: Activity) {
-        InterstitialHelper.showItt(activity, adSpace)
+        XMediatorHelper.showInterstitial(activity, adSpace)
     }
 
     fun onShowRew(activity: Activity) {
-        RewardedHelper.showRewarded(activity, adSpace)
+        XMediatorHelper.showRewarded(activity, adSpace)
     }
 
     fun onShowApo(activity: Activity) {
-        AppOpenHelper.showApo(activity, adSpace)
+        XMediatorHelper.showAppOpen(activity, adSpace)
     }
 
     fun onMediatorSelected(mediator: String) {
-        Log.i("DemoView", "Selected mediator: $mediator")
         when (mediator) {
             "X3M" -> {
-                appKey = x3mAppKey
-                bannerPlacementId = x3mBannerPlacementId
-                interstitialPlacementId = x3mInterstitialPlacementId
-                rewardedPlacementId = x3mRewardedPlacementId
-                // AppOpen not supported for X3M
+                XMediatorHelper.changeMediator(
+                    appKey = x3mAppKey,
+                    bannerPlacementId = x3mBannerPlacementId,
+                    interstitialPlacementId = x3mInterstitialPlacementId,
+                    rewardedPlacementId = x3mRewardedPlacementId,
+                    appOpenPlacementId = null
+                )
             }
 
             "MAX" -> {
-                appKey = maxAppKey
-                bannerPlacementId = maxBannerPlacementId
-                interstitialPlacementId = maxInterstitialPlacementId
-                rewardedPlacementId = maxRewardedPlacementId
-                appOpenPlacementId = maxAppOpenPlacementId
+                XMediatorHelper.changeMediator(
+                    appKey = maxAppKey,
+                    bannerPlacementId = maxBannerPlacementId,
+                    interstitialPlacementId = maxInterstitialPlacementId,
+                    rewardedPlacementId = maxRewardedPlacementId,
+                    appOpenPlacementId = maxAppOpenPlacementId
+                )
             }
 
             "LEVEL PLAY" -> {
-                appKey = lpAppKey
-                bannerPlacementId = lpBannerPlacementId
-                interstitialPlacementId = lpInterstitialPlacementId
-                rewardedPlacementId = lpRewardedPlacementId
-                // AppOpen not supported for Level Play
+                XMediatorHelper.changeMediator(
+                    appKey = lpAppKey,
+                    bannerPlacementId = lpBannerPlacementId,
+                    interstitialPlacementId = lpInterstitialPlacementId,
+                    rewardedPlacementId = lpRewardedPlacementId,
+                    appOpenPlacementId = null
+                )
             }
 
             "GOOGLE ADS" -> {
-                appKey = admobAppKey
-                bannerPlacementId = admobBannerPlacementId
-                interstitialPlacementId = admobInterstitialPlacementId
-                rewardedPlacementId = admobRewardedPlacementId
-                appOpenPlacementId = admobAppOpenPlacementId
-            }
-
-            else -> {
-                // Do nothing
+                XMediatorHelper.changeMediator(
+                    appKey = admobAppKey,
+                    bannerPlacementId = admobBannerPlacementId,
+                    interstitialPlacementId = admobInterstitialPlacementId,
+                    rewardedPlacementId = admobRewardedPlacementId,
+                    appOpenPlacementId = admobAppOpenPlacementId
+                )
             }
         }
     }
@@ -205,46 +149,58 @@ class DemoViewModel : ViewModel() {
     }
 
     fun onShowCmpForm(activity: Activity) {
-        XMediatorAds.CMPProvider.showPrivacyForm(activity) { error ->
-            if (error != null) {
-                Log.d("PrivacyForm", "Error: $error")
-            }
-
-            Log.d("PrivacyForm", "showPrivacyForm complete!")
-        }
+        XMediatorHelper.showCmpForm(activity)
     }
 
     fun onResetCmp(context: Context) {
-        XMediatorAds.CMPProvider.reset(context)
+        XMediatorHelper.resetCmp(context)
     }
 
     fun isCmpProviderAvailable(context: Context): Boolean {
-        return XMediatorAds.CMPProvider.isPrivacyFormAvailable(context)
+        return XMediatorHelper.isCmpProviderAvailable(context)
     }
 
     fun onCustomMediatorSelected(context: Context, onComplete: () -> Unit) {
+        var tempAppKey: String? = null
+        var tempBannerPlacementId: String? = null
+        var tempInterstitialPlacementId: String? = null
+        var tempRewardedPlacementId: String? = null
+        var tempAppOpenPlacementId: String? = null
+
         val inputFields = listOf(
-            "App Key" to ::appKey,
-            "Banner Placement ID" to ::bannerPlacementId,
-            "Interstitial Placement ID" to ::interstitialPlacementId,
-            "Rewarded Placement ID" to ::rewardedPlacementId,
-            "App Open Placement ID" to ::appOpenPlacementId,
+            "App Key" to { value: String? -> tempAppKey = value },
+            "Banner Placement ID" to { value: String? -> tempBannerPlacementId = value },
+            "Interstitial Placement ID" to { value: String? -> tempInterstitialPlacementId = value },
+            "Rewarded Placement ID" to { value: String? -> tempRewardedPlacementId = value },
+            "App Open Placement ID" to { value: String? -> tempAppOpenPlacementId = value },
         )
 
-        val inputLayouts = inputFields.map { (label, property) ->
+        val inputLayouts = inputFields.map { (label, _) ->
             TextInputLayout(context).apply {
                 hint = label
                 addView(TextInputEditText(context).apply {
-                    setText(property.get() ?: "")
+                    setText("")
                 })
             }
         }
 
-        showCustomMediatorDialog(context, inputLayouts, inputFields, onComplete)
+        showCustomMediatorDialog(context, inputLayouts, inputFields, onComplete) {
+            XMediatorHelper.changeMediator(
+                appKey = tempAppKey,
+                bannerPlacementId = tempBannerPlacementId,
+                interstitialPlacementId = tempInterstitialPlacementId,
+                rewardedPlacementId = tempRewardedPlacementId,
+                appOpenPlacementId = tempAppOpenPlacementId
+            )
+        }
+    }
+
+    fun onResume() {
+        _isInitialized.value = XMediatorHelper.isInitialized.get()
     }
 
     fun onDebuggingSuiteButtonClick(activity: Activity) {
-        XMediatorAds.openDebuggingSuite(activity)
+        XMediatorHelper.openDebuggingSuite(activity)
     }
 
     fun resetApp(demoActivity: DemoActivity) {
@@ -280,8 +236,9 @@ class DemoViewModel : ViewModel() {
     private fun showCustomMediatorDialog(
         context: Context,
         inputs: List<TextInputLayout>,
-        inputFields: List<Pair<String, KMutableProperty0<String?>>>,
-        onComplete: () -> Unit
+        inputFields: List<Pair<String, (String?) -> Unit>>,
+        onComplete: () -> Unit,
+        onSave: () -> Unit
     ) {
         AlertDialog.Builder(context)
             .setTitle("Custom Mediator Settings")
@@ -291,9 +248,10 @@ class DemoViewModel : ViewModel() {
                 inputs.forEach { addView(it) }
             })
             .setPositiveButton("OK") { _, _ ->
-                inputFields.forEachIndexed { index, (_, property) ->
-                    property.set(inputs[index].editText?.text?.toString())
+                inputFields.forEachIndexed { index, (_, setter) ->
+                    setter(inputs[index].editText?.text?.toString())
                 }
+                onSave()
                 onComplete()
             }
             .setNegativeButton("Cancel", null)

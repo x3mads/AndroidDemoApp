@@ -53,7 +53,7 @@ class DemoActivity : AppCompatActivity() {
         ctvFakeEeaRegion.isEnabled = false
 
         btnInit.setOnClickListener { viewModel.onInitButtonClick(this) }
-        btnShowBan.setOnClickListener { viewModel.onShowBanner(findViewById(R.id.banner_footer)) }
+        btnShowBan.setOnClickListener { viewModel.onShowBanner(this, findViewById(R.id.banner_footer)) }
         btnShowItt.setOnClickListener { viewModel.onShowItt(this) }
         btnShowRew.setOnClickListener { viewModel.onShowRew(this) }
         btnShowApo.setOnClickListener { viewModel.onShowApo(this) }
@@ -140,6 +140,11 @@ class DemoActivity : AppCompatActivity() {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
     }
 
     override fun onDestroy() {

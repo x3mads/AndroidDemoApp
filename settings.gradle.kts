@@ -17,7 +17,9 @@ dependencyResolutionManagement {
         google()
         maven { url = uri("https://maven.ogury.co") }
         maven { url = uri("https://repo.maven.apache.org/maven2") }
+        maven { url = uri("https://repo.pubmatic.com/artifactory/public-repos") }
         mavenCentral()
+        maven { url = uri("https://verve.jfrog.io/artifactory/verve-gradle-release") }
     }
 }
 

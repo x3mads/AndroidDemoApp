@@ -7,7 +7,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.x3mads.android.xmediator.core.api.XMediatorAds
-import com.x3mads.demo.ads.AppOpenHelper
+import com.x3mads.demo.ads.XMediatorHelper
 
 class DemoApp : Application(), DefaultLifecycleObserver, Application.ActivityLifecycleCallbacks {
 
@@ -24,7 +24,7 @@ class DemoApp : Application(), DefaultLifecycleObserver, Application.ActivityLif
         if (XMediatorAds.AppOpen.isReady()) {
             // Get current activity and show ad
             currentActivity?.let { activity ->
-                AppOpenHelper.showApo(activity, "return-app-ad-space")
+                XMediatorHelper.showAppOpen(activity, "return-app-ad-space")
             }
         }
     }
