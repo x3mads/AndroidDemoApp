@@ -65,7 +65,6 @@ object XMediatorHelper {
             ),
             initCallback = {
                 isInitialized.set(true)
-                loadAds()
                 onInitComplete?.invoke()
                 Log.d("DemoView", "Initialization complete!")
             },
@@ -126,7 +125,7 @@ object XMediatorHelper {
         return false
     }
 
-    private fun loadAds() {
+    fun loadAds() {
         bannerPlacementId?.let { BannerHelper.createBannerAd(it) }
         interstitialPlacementId?.let { InterstitialHelper.loadInterstitialAd(it) }
         rewardedPlacementId?.let { RewardedHelper.loadRewardedAd(it) }

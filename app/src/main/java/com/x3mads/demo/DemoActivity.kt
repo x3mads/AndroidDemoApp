@@ -16,6 +16,7 @@ class DemoActivity : AppCompatActivity() {
     private val viewModel: DemoViewModel by viewModels()
 
     private lateinit var btnInit: Button
+    private lateinit var btnLoadAds: Button
     private lateinit var btnShowBan: Button
     private lateinit var btnShowItt: Button
     private lateinit var btnShowRew: Button
@@ -37,6 +38,7 @@ class DemoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_demo)
 
         btnInit = findViewById(R.id.btn_init)
+        btnLoadAds = findViewById(R.id.btn_load)
         btnShowBan = findViewById(R.id.btn_show_ban)
         btnShowItt = findViewById(R.id.btn_show_itt)
         btnShowRew = findViewById(R.id.btn_show_rew)
@@ -55,6 +57,7 @@ class DemoActivity : AppCompatActivity() {
         ctvFakeEeaRegion.isEnabled = false
 
         btnInit.setOnClickListener { viewModel.onInitButtonClick(this) }
+        btnLoadAds.setOnClickListener { viewModel.loadAds() }
         btnShowBan.setOnClickListener { viewModel.onShowBanner(this, findViewById(R.id.banner_footer)) }
         btnShowItt.setOnClickListener { viewModel.onShowItt(this) }
         btnShowRew.setOnClickListener { viewModel.onShowRew(this) }
@@ -113,6 +116,7 @@ class DemoActivity : AppCompatActivity() {
         viewModel.subscribeEvents()
 
         viewModel.isInitialized.observe(this) { isInitialized ->
+            btnLoadAds.isEnabled = isInitialized
             spMediator.isEnabled = !isInitialized
             btnInit.isEnabled = !isInitialized
             ctvAutomaticCmp.isEnabled = !isInitialized

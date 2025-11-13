@@ -83,6 +83,10 @@ class DemoViewModel : ViewModel() {
         )
     }
 
+    fun loadAds() {
+        XMediatorHelper.loadAds()
+    }
+
     fun onShowBanner(activity: Activity, container: ViewGroup) {
         XMediatorHelper.showBanner(activity, container, adSpace)
     }
