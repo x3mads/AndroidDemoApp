@@ -56,9 +56,9 @@ dependencies {
 
     // -- Ad Networks --
     // amazon publisher services
-    implementation("com.amazon.android:aps-sdk:11.1.1")
-    implementation("com.applovin.mediation:amazon-tam-adapter:11.1.1.0")
-    implementation("com.x3mads.android.xmediator.mediation:aps:11.1.1.0")
+    implementation("com.amazon.android:aps-sdk:11.0.1")
+    implementation("com.applovin.mediation:amazon-tam-adapter:11.0.1.1")
+    implementation("com.x3mads.android.xmediator.mediation:aps:11.0.1.0")
     // applovin
     implementation("com.applovin:applovin-sdk:13.4.0")
     implementation("com.google.ads.mediation:applovin:13.4.0.1")
@@ -97,7 +97,6 @@ dependencies {
     implementation("com.google.ads.mediation:inmobi:10.8.7.1")
     implementation("com.unity3d.ads-mediation:inmobi-adapter:5.0.0")
     implementation("com.applovin.mediation:inmobi-adapter:10.8.7.0")
-    implementation("com.x3mads.android.xmediator.mediation:inmobi:10.8.8.1")
     // ironsource
     implementation("com.unity3d.ads-mediation:mediation-sdk:8.10.0")
     implementation("com.google.ads.mediation:ironsource:8.10.0.0")
