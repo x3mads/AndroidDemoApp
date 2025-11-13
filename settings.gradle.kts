@@ -15,6 +15,7 @@ dependencyResolutionManagement {
         maven { url = uri("https://cboost.jfrog.io/artifactory/chartboost-ads") }
         maven { url = uri("https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea") }
         google()
+        maven { url = uri("https://jitpack.io") }
         maven { url = uri("https://maven.ogury.co") }
         maven { url = uri("https://repo.maven.apache.org/maven2") }
         maven { url = uri("https://repo.pubmatic.com/artifactory/public-repos") }

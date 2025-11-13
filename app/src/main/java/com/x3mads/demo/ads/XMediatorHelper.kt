@@ -54,13 +54,11 @@ object XMediatorHelper {
             return
         }
 
+        XMediatorAds.setUserProperties(UserProperties(userId = "appharbr-test-userid"))
         XMediatorAds.startWith(
             activity = activity,
             appKey = currentAppKey,
             initSettings = InitSettings(
-                userProperties = UserProperties(
-                    userId = "your-user-id",
-                ),
                 consentInformation = getConsentInformation(fakeEeaRegion, cmpEnabled),
                 verbose = true, // TODO: Remove on production
                 test = true, // TODO: Remove on production

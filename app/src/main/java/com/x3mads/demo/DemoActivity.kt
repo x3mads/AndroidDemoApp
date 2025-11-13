@@ -29,6 +29,7 @@ class DemoActivity : AppCompatActivity() {
     private lateinit var clMediatorWarning: View
     private lateinit var btnResetApp: View
     private lateinit var clCmp: View
+    private lateinit var btnAppHarbrIntegrationDashboard: View
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +50,7 @@ class DemoActivity : AppCompatActivity() {
         clMediatorWarning = findViewById(R.id.cl_mediator_warning)
         btnResetApp = findViewById(R.id.btn_reset_app)
         clCmp = findViewById(R.id.cl_cmp)
+        btnAppHarbrIntegrationDashboard = findViewById(R.id.btn_appharbr_integration_dashboard)
 
         ctvFakeEeaRegion.isEnabled = false
 
@@ -73,6 +75,7 @@ class DemoActivity : AppCompatActivity() {
         btnCmpShowForm.setOnClickListener { viewModel.onShowCmpForm(this) }
         btnCmpReset.setOnClickListener { viewModel.onResetCmp(this) }
         btnDebuggingSuite.setOnClickListener { viewModel.onDebuggingSuiteButtonClick(this) }
+        btnAppHarbrIntegrationDashboard.setOnClickListener { viewModel.onAppHarbrIntegrationDashboardButtonClick() }
         btnResetApp.setOnClickListener { viewModel.resetApp(this) }
 
         ArrayAdapter.createFromResource(

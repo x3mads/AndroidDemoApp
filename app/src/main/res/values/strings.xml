@@ -9,6 +9,7 @@
     <string name="label_show_form">Show Form</string>
     <string name="label_reset">Reset</string>
     <string name="label_debugging_suite">Debugging Suite</string>
+    <string name="label_appharbr_integration_dashboard">AppHarbr Integration Dashboard</string>
     <string name="reopen_message">To switch Mediator, you must reopen the app</string>
     <string name="label_show_itt">Show Interstitial</string>
     <string name="label_show_rew">Show Rewarded</string>

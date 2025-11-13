@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.appharbr.sdk.engine.AdSdk
+import com.appharbr.sdk.engine.AppHarbr
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.x3mads.demo.ads.AppOpenHelper
@@ -256,5 +259,25 @@ class DemoViewModel : ViewModel() {
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    fun onAppHarbrIntegrationDashboardButtonClick() {
+        if (!AppHarbr.isInitialized()) {
+            Log.w("DemoApp:AppHarbr", "AppHarbr not initialized. Please initialize it first.")
+            return
+        }
+        val selectedMediation = when (XMediatorHelper.getAppKey()) {
+            maxAppKey -> AdSdk.MAX
+            admobAppKey -> AdSdk.ADMOB
+            lpAppKey -> AdSdk.LEVELPLAY
+            else -> {
+                AdSdk.NONE
+            }
+        }
+        if (selectedMediation == AdSdk.NONE) {
+            Log.w("DemoApp:AppHarbr", "Attempting to launch integration dashboard for unknown mediation.")
+            return
+        }
+        AppHarbr.launchIntegrationDashboard(selectedMediation)
     }
 }
