@@ -16,6 +16,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.x3mads.demo.ads.AppOpenHelper
 import com.x3mads.demo.ads.BannerHelper
 import com.x3mads.demo.ads.InterstitialHelper
+import com.x3mads.demo.ads.NativeHelper
 import com.x3mads.demo.ads.RewardedHelper
 import com.x3mads.demo.ads.XMediatorHelper
 import com.x3mads.demo.ads.XMediatorHelper.cmpEnabled
@@ -30,21 +31,26 @@ private const val maxAppKey = "V148L42DB1"
 private const val maxBannerPlacementId = "V142DR9L2247MG"
 private const val maxInterstitialPlacementId = "V142DRJLE1G5XX"
 private const val maxRewardedPlacementId = "V142DR4LW2MT4B"
+private const val maxNativePlacementId = "V14CHR2ZKLBPEFFJ"
 private const val maxAppOpenPlacementId = "V14JHR4ZKL86RTC2"
 
 private const val admobAppKey = "V148L48DBJ"
 private const val admobBannerPlacementId = "V14JHR4Z2LKRFYNP"
 private const val admobInterstitialPlacementId = "V14JHR28KLVMZGXJ"
 private const val admobRewardedPlacementId = "V14JHR282L889BY3"
+private const val admobNativeVideoPlacementId = "V14CHR28HL1099P9"
+private const val admobNativeImagePlacementId = "V14CHR2VKLR29J67"
 private const val admobAppOpenPlacementId = "V14JHR283LMV0WYT"
 
 private const val lpAppKey = "V148L42DB8"
 private const val lpBannerPlacementId = "V142DR2LD0QYR1"
 private const val lpInterstitialPlacementId = "V142DR1L7WJN07"
 private const val lpRewardedPlacementId = "V142DR8L1DP5ND"
+private const val lpNativePlacementId = "V14CHR2VHLYEE2J8"
 
 class DemoViewModel : ViewModel() {
     val isBanLoaded: LiveData<Boolean> get() = BannerHelper.BanLoaded
+    val isNatLoaded: LiveData<Boolean> get() = NativeHelper.NativeLoaded
     val isIttLoaded: LiveData<Boolean> get() = InterstitialHelper.IttLoaded
     val isRewLoaded: LiveData<Boolean> get() = RewardedHelper.RewLoaded
     val isApoLoaded: LiveData<Boolean> get() = AppOpenHelper.ApoLoaded
@@ -84,6 +90,10 @@ class DemoViewModel : ViewModel() {
         XMediatorHelper.showBanner(activity, container, adSpace)
     }
 
+    fun onShowNative(activity: Activity, container: ViewGroup) {
+        XMediatorHelper.showNative(activity, container, adSpace)
+    }
+
     fun onShowItt(activity: Activity) {
         XMediatorHelper.showInterstitial(activity, adSpace)
     }
@@ -104,6 +114,7 @@ class DemoViewModel : ViewModel() {
                     bannerPlacementId = x3mBannerPlacementId,
                     interstitialPlacementId = x3mInterstitialPlacementId,
                     rewardedPlacementId = x3mRewardedPlacementId,
+                    nativePlacementId = null,
                     appOpenPlacementId = null
                 )
             }
@@ -114,6 +125,7 @@ class DemoViewModel : ViewModel() {
                     bannerPlacementId = maxBannerPlacementId,
                     interstitialPlacementId = maxInterstitialPlacementId,
                     rewardedPlacementId = maxRewardedPlacementId,
+                    nativePlacementId = maxNativePlacementId,
                     appOpenPlacementId = maxAppOpenPlacementId
                 )
             }
@@ -124,6 +136,7 @@ class DemoViewModel : ViewModel() {
                     bannerPlacementId = lpBannerPlacementId,
                     interstitialPlacementId = lpInterstitialPlacementId,
                     rewardedPlacementId = lpRewardedPlacementId,
+                    nativePlacementId = lpNativePlacementId,
                     appOpenPlacementId = null
                 )
             }
@@ -134,6 +147,7 @@ class DemoViewModel : ViewModel() {
                     bannerPlacementId = admobBannerPlacementId,
                     interstitialPlacementId = admobInterstitialPlacementId,
                     rewardedPlacementId = admobRewardedPlacementId,
+                    nativePlacementId = admobNativeVideoPlacementId, //admobNativeImagePlacementId
                     appOpenPlacementId = admobAppOpenPlacementId
                 )
             }
@@ -165,6 +179,7 @@ class DemoViewModel : ViewModel() {
         var tempBannerPlacementId: String? = null
         var tempInterstitialPlacementId: String? = null
         var tempRewardedPlacementId: String? = null
+        var tempNativePlacementId: String? = null
         var tempAppOpenPlacementId: String? = null
 
         val inputFields = listOf(
@@ -172,6 +187,7 @@ class DemoViewModel : ViewModel() {
             "Banner Placement ID" to { value: String? -> tempBannerPlacementId = value },
             "Interstitial Placement ID" to { value: String? -> tempInterstitialPlacementId = value },
             "Rewarded Placement ID" to { value: String? -> tempRewardedPlacementId = value },
+            "Native Placement ID" to { value: String? -> tempNativePlacementId = value },
             "App Open Placement ID" to { value: String? -> tempAppOpenPlacementId = value },
         )
 
@@ -190,6 +206,7 @@ class DemoViewModel : ViewModel() {
                 bannerPlacementId = tempBannerPlacementId,
                 interstitialPlacementId = tempInterstitialPlacementId,
                 rewardedPlacementId = tempRewardedPlacementId,
+                nativePlacementId = tempNativePlacementId,
                 appOpenPlacementId = tempAppOpenPlacementId
             )
         }
@@ -215,6 +232,7 @@ class DemoViewModel : ViewModel() {
 
     fun subscribeEvents() {
         BannerHelper.registerListener()
+        NativeHelper.registerListener()
         InterstitialHelper.registerListener()
         RewardedHelper.registerListener()
         AppOpenHelper.registerListener()
@@ -225,6 +243,7 @@ class DemoViewModel : ViewModel() {
 
     fun unSubscribeEvents() {
         BannerHelper.unregisterListener()
+        NativeHelper.unregisterListener()
         InterstitialHelper.unregisterListener()
         RewardedHelper.unregisterListener()
         AppOpenHelper.unregisterListener()

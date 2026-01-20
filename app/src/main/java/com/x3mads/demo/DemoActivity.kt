@@ -2,6 +2,7 @@ package com.x3mads.demo
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -19,6 +20,7 @@ class DemoActivity : AppCompatActivity() {
     private lateinit var btnShowBan: Button
     private lateinit var btnShowItt: Button
     private lateinit var btnShowRew: Button
+    private lateinit var btnShowNat: Button
     private lateinit var btnShowApo: Button
     private lateinit var spMediator: Spinner
     private lateinit var ctvAutomaticCmp: CheckedTextView
@@ -29,6 +31,8 @@ class DemoActivity : AppCompatActivity() {
     private lateinit var clMediatorWarning: View
     private lateinit var btnResetApp: View
     private lateinit var clCmp: View
+    private lateinit var bannerFooter: ViewGroup
+    private lateinit var nativeFooter: ViewGroup
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +43,7 @@ class DemoActivity : AppCompatActivity() {
         btnShowBan = findViewById(R.id.btn_show_ban)
         btnShowItt = findViewById(R.id.btn_show_itt)
         btnShowRew = findViewById(R.id.btn_show_rew)
+        btnShowNat = findViewById(R.id.btn_show_nat)
         btnShowApo = findViewById(R.id.btn_show_apo)
         spMediator = findViewById(R.id.sp_mediation)
         ctvAutomaticCmp = findViewById(R.id.ctv_cmp_enabled)
@@ -49,13 +54,20 @@ class DemoActivity : AppCompatActivity() {
         clMediatorWarning = findViewById(R.id.cl_mediator_warning)
         btnResetApp = findViewById(R.id.btn_reset_app)
         clCmp = findViewById(R.id.cl_cmp)
+        bannerFooter = findViewById(R.id.banner_footer)
+        nativeFooter = findViewById(R.id.native_footer)
 
         ctvFakeEeaRegion.isEnabled = false
 
         btnInit.setOnClickListener { viewModel.onInitButtonClick(this) }
-        btnShowBan.setOnClickListener { viewModel.onShowBanner(this, findViewById(R.id.banner_footer)) }
+        btnShowBan.setOnClickListener {
+            nativeFooter.removeAllViews()
+            viewModel.onShowBanner(this, bannerFooter) }
         btnShowItt.setOnClickListener { viewModel.onShowItt(this) }
         btnShowRew.setOnClickListener { viewModel.onShowRew(this) }
+        btnShowNat.setOnClickListener {
+            bannerFooter.removeAllViews()
+            viewModel.onShowNative(this, nativeFooter) }
         btnShowApo.setOnClickListener { viewModel.onShowApo(this) }
         ctvAutomaticCmp.setOnClickListener {
             ctvAutomaticCmp.isChecked = !ctvAutomaticCmp.isChecked
@@ -126,6 +138,10 @@ class DemoActivity : AppCompatActivity() {
 
         viewModel.isRewLoaded.observe(this) { isLoaded ->
             btnShowRew.isEnabled = isLoaded
+        }
+
+        viewModel.isNatLoaded.observe(this) { isLoaded ->
+            btnShowNat.isEnabled = isLoaded
         }
 
         viewModel.isBanLoaded.observe(this) { isLoaded ->

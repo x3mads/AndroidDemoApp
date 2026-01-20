@@ -13,6 +13,7 @@
     <string name="label_show_itt">Show Interstitial</string>
     <string name="label_show_rew">Show Rewarded</string>
     <string name="label_show_banner">Show Banner</string>
+    <string name="label_show_native">Show Native</string>
     <string name="label_show_apo">SHOW APPOPEN</string>
     <array name="mediators">
         <item />

@@ -49,10 +49,10 @@ android {
 dependencies {
     // Note: Use the picker to select your dependencies https://docs.x3mads.com/metamediation/android/3-Add_x3m_sdk/
     // -- Mediation Libraries --
-    implementation("com.x3mads.android.xmediator:core:1.139.0")
-    implementation("com.x3mads.android.xmediator.mediation:applovin:13.5.1.1")
-    implementation("com.x3mads.android.xmediator.mediation:google-ads:24.8.0.0")
-    implementation("com.x3mads.android.xmediator.mediation:ironsource:9.2.0.0")
+    implementation("com.x3mads.android.xmediator:core:1.140.1")
+    implementation("com.x3mads.android.xmediator.mediation:applovin:13.5.1.2")
+    implementation("com.x3mads.android.xmediator.mediation:google-ads:24.9.0.1")
+    implementation("com.x3mads.android.xmediator.mediation:ironsource:9.2.0.1")
 
     // -- Ad Networks --
     // amazon publisher services

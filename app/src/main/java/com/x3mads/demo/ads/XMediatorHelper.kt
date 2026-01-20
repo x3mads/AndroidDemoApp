@@ -21,6 +21,7 @@ object XMediatorHelper {
     private var bannerPlacementId: String? = "V14JHR4Z2LKRFYNP"
     private var interstitialPlacementId: String? = "V14JHR28KLVMZGXJ"
     private var rewardedPlacementId: String? = "V14JHR282L889BY3"
+    private var nativePlacementId: String? = "V14CHR28HL1099P9"
     private var appOpenPlacementId: String? = "V142DR8L1DP5ND"
 
     fun changeMediator(
@@ -28,12 +29,14 @@ object XMediatorHelper {
         bannerPlacementId: String?,
         interstitialPlacementId: String?,
         rewardedPlacementId: String?,
+        nativePlacementId: String?,
         appOpenPlacementId: String?
     ) {
         XMediatorHelper.appKey = appKey
         XMediatorHelper.bannerPlacementId = bannerPlacementId
         XMediatorHelper.interstitialPlacementId = interstitialPlacementId
         XMediatorHelper.rewardedPlacementId = rewardedPlacementId
+        XMediatorHelper.nativePlacementId = nativePlacementId
         XMediatorHelper.appOpenPlacementId = appOpenPlacementId
     }
 
@@ -104,6 +107,14 @@ object XMediatorHelper {
         }
     }
 
+    fun showNative(activity: Activity, container: android.view.ViewGroup, adSpace: String) {
+        if (initializeIfNeedIt(activity)) return
+
+        nativePlacementId?.let {
+            NativeHelper.showNativeAd(it, container, adSpace)
+        }
+    }
+
     fun showInterstitial(activity: Activity, adSpace: String) {
         if (initializeIfNeedIt(activity)) return
         InterstitialHelper.showItt(activity, adSpace)
@@ -132,6 +143,7 @@ object XMediatorHelper {
         bannerPlacementId?.let { BannerHelper.createBannerAd(it) }
         interstitialPlacementId?.let { InterstitialHelper.loadInterstitialAd(it) }
         rewardedPlacementId?.let { RewardedHelper.loadRewardedAd(it) }
+        nativePlacementId?.let { NativeHelper.loadNativeAd(it) }
         appOpenPlacementId?.let { AppOpenHelper.loadAppOpenAd(it) }
     }
 
