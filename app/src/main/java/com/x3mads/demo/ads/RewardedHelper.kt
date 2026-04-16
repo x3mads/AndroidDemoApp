@@ -3,6 +3,7 @@ package com.x3mads.demo.ads
 import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.etermax.xmediator.core.api.entities.ImpressionData
 import com.etermax.xmediator.core.api.entities.LoadResult
 import com.etermax.xmediator.core.api.entities.ShowError
 import com.x3mads.android.xmediator.core.api.RewardedAds
@@ -66,6 +67,14 @@ object RewardedHelper {
 
         override fun onShowed(placementId: String) {
             Log.d("DemoView", "Rewarded shown for placementId: $placementId")
+        }
+
+        override fun onClicked(placementId: String) {
+            Log.d("DemoView","Rewarded click for placementId: $placementId")
+        }
+
+        override fun onImpression(placementId: String, impressionData: ImpressionData) {
+            Log.d("DemoView","Rewarded impression for placementId: $placementId")
         }
     }
 }
