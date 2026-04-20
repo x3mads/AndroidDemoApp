@@ -1,20 +1,41 @@
 <resources>
-    <string name="app_name">X3M Demo</string>
+    <string name="app_name">XMediator Demo</string>
+    <string name="app_tagline">XMediator SDK showcase</string>
+
+    <!-- Section headers -->
+    <string name="section_setup">Setup</string>
+    <string name="section_privacy">Privacy</string>
+    <string name="section_ad_types">Ad Types</string>
+
+    <!-- Labels -->
     <string name="label_mediator">Mediator</string>
     <string name="label_cmp_settings">CMP Settings</string>
     <string name="label_automatic_cmp">Automatic CMP</string>
     <string name="label_fake_eea_region">Fake EEA region</string>
-    <string name="label_init_sdk">Init SDK</string>
+    <string name="label_init_sdk">Initialize SDK</string>
     <string name="label_cmp">CMP</string>
-    <string name="label_show_form">Show Form</string>
+    <string name="label_show_form">Show form</string>
     <string name="label_reset">Reset</string>
     <string name="label_debugging_suite">Debugging Suite</string>
-    <string name="reopen_message">To switch Mediator, you must reopen the app</string>
-    <string name="label_show_itt">Show Interstitial</string>
-    <string name="label_show_rew">Show Rewarded</string>
-    <string name="label_show_banner">Show Banner</string>
-    <string name="label_show_native">Show Native</string>
-    <string name="label_show_apo">SHOW APPOPEN</string>
+    <string name="reopen_message">To switch mediator, reopen the app</string>
+
+    <!-- Ad type button labels -->
+    <string name="label_show_itt">Interstitial</string>
+    <string name="label_show_rew">Rewarded</string>
+    <string name="label_show_banner">Banner</string>
+    <string name="label_show_native">Native</string>
+    <string name="label_show_apo">App Open</string>
+    <string name="label_track_purchase">Track Test Purchase</string>
+    <string name="section_tracking">Tracking</string>
+
+    <!-- Status -->
+    <string name="status_not_initialized">SDK not initialized</string>
+    <string name="status_initialized">SDK initialized</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_app_logo">App logo</string>
+    <string name="cd_reset_app">Restart the app</string>
+
     <array name="mediators">
         <item />
         <item>X3M</item>

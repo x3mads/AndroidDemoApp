@@ -3,10 +3,12 @@ package com.x3mads.demo.ads
 import android.app.Activity
 import android.content.Context
 import android.util.Log
+import com.etermax.xmediator.core.api.entities.AdOpportunityEvent
 import com.etermax.xmediator.core.api.entities.CMPDebugGeography
 import com.etermax.xmediator.core.api.entities.CMPDebugSettings
 import com.etermax.xmediator.core.api.entities.ConsentInformation
 import com.etermax.xmediator.core.api.entities.InitSettings
+import com.etermax.xmediator.core.api.entities.PurchaseEvent
 import com.etermax.xmediator.core.api.entities.UserProperties
 import com.x3mads.android.xmediator.core.api.XMediatorAds
 import java.util.concurrent.atomic.AtomicBoolean
@@ -116,12 +118,14 @@ object XMediatorHelper {
     }
 
     fun showInterstitial(activity: Activity, adSpace: String) {
+        trackAdOpportunity(AdOpportunityEvent.interstitial(adSpace))
         if (initializeIfNeedIt(activity)) return
         InterstitialHelper.showItt(activity, adSpace)
     }
 
 
     fun showRewarded(activity: Activity, adSpace: String) {
+        trackAdOpportunity(AdOpportunityEvent.rewarded(adSpace))
         if (initializeIfNeedIt(activity)) return
         RewardedHelper.showRewarded(activity, adSpace)
     }
@@ -129,6 +133,22 @@ object XMediatorHelper {
     fun showAppOpen(activity: Activity, adSpace: String) {
         if (initializeIfNeedIt(activity)) return
         AppOpenHelper.showApo(activity, adSpace)
+    }
+
+    fun trackPurchase(event: PurchaseEvent) {
+        if (!isInitialized.get()) {
+            Log.w("XMediatorHelper", "Cannot track purchase: SDK not initialized")
+            return
+        }
+        XMediatorAds.EventTracker.track(event)
+    }
+
+    private fun trackAdOpportunity(event: AdOpportunityEvent) {
+        if (!isInitialized.get()) {
+            Log.w("XMediatorHelper", "Cannot track ad opportunity: SDK not initialized")
+            return
+        }
+        XMediatorAds.EventTracker.track(event)
     }
 
     private fun initializeIfNeedIt(activity: Activity): Boolean {

@@ -1,297 +1,357 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/loomit_dark_blue"
+    android:fitsSystemWindows="true"
     tools:context="com.x3mads.demo.DemoActivity">
 
-    <LinearLayout
-        android:id="@+id/ll_mediators"
+    <!-- Main scrollable content, leaves space at the bottom for the footer -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tx_label_mediators"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_mediator"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Spinner
-            android:id="@+id/sp_mediation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/spinner_background"
-            android:dropDownWidth="match_parent"
-            android:entries="@array/mediators"
-            android:popupBackground="@android:drawable/spinner_dropdown_background" />
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_mediator_warning"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_mediators">
-
-        <TextView
-            android:id="@+id/tx_mediator_warning"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/reopen_message"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_reset_app"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btn_reset_app" />
-
-        <ImageButton
-            android:id="@+id/btn_reset_app"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@drawable/reset_24"
-            android:contentDescription="@string/reopen_message"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tx_mediator_warning"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_cmp_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="#E5E7EB"
-        android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_mediator_warning">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="72dp">
 
         <LinearLayout
-            android:id="@+id/ll_cmp"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/cl_cmp"
-            app:layout_constraintHorizontal_weight="1.2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
-            <TextView
-                android:id="@+id/tx_label_cmp_settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_cmp_settings"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
+            <!-- Header: logo + app name + debugging icon -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="8dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="16dp">
 
-                <CheckedTextView
-                    android:id="@+id/ctv_cmp_enabled"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:checked="false"
-                    android:gravity="center_vertical"
-                    android:text="@string/label_automatic_cmp" />
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="@string/cd_app_logo"
+                    android:src="@drawable/ic_app_logo" />
 
-                <CheckedTextView
-                    android:id="@+id/ctv_fake_region"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-                    android:checked="false"
-                    android:enabled="false"
-                    android:gravity="center_vertical"
-                    android:text="@string/label_fake_eea_region" />
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_name"
+                        android:textColor="@color/loomit_green"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_tagline"
+                        android:textColor="@color/white_70"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_debugging_suite"
+                    style="@style/Widget.Material3.Button.IconButton.Outlined"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/label_debugging_suite"
+                    app:icon="@drawable/ic_bug"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="22dp"
+                    app:iconTint="@color/loomit_green"
+                    app:strokeColor="@color/loomit_green" />
             </LinearLayout>
+
+            <!-- Section: Setup -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/section_setup"
+                android:textAppearance="@style/TextAppearance.X3MDemo.SectionTitle" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.X3MDemo.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_mediator"
+                        android:textAppearance="@style/TextAppearance.X3MDemo.CardTitle" />
+
+                    <Spinner
+                        android:id="@+id/sp_mediation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="@color/loomit_green"
+                        android:dropDownWidth="match_parent"
+                        android:entries="@array/mediators"
+                        android:popupBackground="@color/loomit_surface_variant" />
+
+                    <!-- Reopen warning shown after initialization -->
+                    <LinearLayout
+                        android:id="@+id/cl_mediator_warning"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_footer_container"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="8dp"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/reopen_message"
+                            android:textColor="@color/white"
+                            android:textSize="13sp" />
+
+                        <ImageButton
+                            android:id="@+id/btn_reset_app"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/cd_reset_app"
+                            android:src="@drawable/reset_24" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_init"
+                        style="@style/Widget.X3MDemo.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/label_init_sdk" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Section: Privacy (CMP) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/section_privacy"
+                android:textAppearance="@style/TextAppearance.X3MDemo.SectionTitle" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.X3MDemo.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_cmp_settings"
+                        android:textAppearance="@style/TextAppearance.X3MDemo.CardTitle" />
+
+                    <CheckedTextView
+                        android:id="@+id/ctv_cmp_enabled"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                        android:checkMarkTint="@color/loomit_green"
+                        android:checked="false"
+                        android:gravity="center_vertical"
+                        android:text="@string/label_automatic_cmp"
+                        android:textColor="@color/white" />
+
+                    <CheckedTextView
+                        android:id="@+id/ctv_fake_region"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                        android:checkMarkTint="@color/loomit_green"
+                        android:checked="false"
+                        android:enabled="false"
+                        android:gravity="center_vertical"
+                        android:text="@string/label_fake_eea_region"
+                        android:textColor="@color/white" />
+
+                    <LinearLayout
+                        android:id="@+id/cl_cmp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_show_form"
+                            style="@style/Widget.X3MDemo.Button.Outlined"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:enabled="false"
+                            android:text="@string/label_show_form" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_reset_cmp"
+                            style="@style/Widget.X3MDemo.Button.Outlined"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_weight="1"
+                            android:enabled="false"
+                            android:text="@string/label_reset" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Section: Ad Types -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/section_ad_types"
+                android:textAppearance="@style/TextAppearance.X3MDemo.SectionTitle" />
+
+            <!-- Row 1: App Open + Interstitial -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_show_apo"
+                    style="@style/Widget.X3MDemo.Button.AdType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:text="@string/label_show_apo"
+                    app:icon="@drawable/ic_ad_app_open"
+                    tools:enabled="true" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_show_itt"
+                    style="@style/Widget.X3MDemo.Button.AdType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:text="@string/label_show_itt"
+                    app:icon="@drawable/ic_ad_interstitial"
+                    tools:enabled="true" />
+            </LinearLayout>
+
+            <!-- Row 2: Rewarded + Banner -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_show_rew"
+                    style="@style/Widget.X3MDemo.Button.AdType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:text="@string/label_show_rew"
+                    app:icon="@drawable/ic_ad_rewarded"
+                    tools:enabled="true" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_show_ban"
+                    style="@style/Widget.X3MDemo.Button.AdType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:text="@string/label_show_banner"
+                    app:icon="@drawable/ic_ad_banner"
+                    tools:enabled="true" />
+            </LinearLayout>
+
+            <!-- Row 3: Native (full-width) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_show_nat"
+                style="@style/Widget.X3MDemo.Button.AdType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:enabled="false"
+                android:text="@string/label_show_native"
+                app:icon="@drawable/ic_ad_native"
+                tools:enabled="true" />
+
+            <!-- Native ad preview container -->
+            <FrameLayout
+                android:id="@+id/native_footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+            <!-- Section: Tracking -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/section_tracking"
+                android:textAppearance="@style/TextAppearance.X3MDemo.SectionTitle" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_track_purchase"
+                style="@style/Widget.X3MDemo.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_track_purchase" />
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_cmp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="0.8"
-            app:layout_constraintStart_toEndOf="@+id/ll_cmp"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
-
-            <Button
-                android:id="@+id/btn_show_form"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="@string/label_show_form"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/btn_reset_cmp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="@string/label_reset"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_show_form" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/btn_init"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="4dp"
-        android:text="@string/label_init_sdk"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/btn_debugging_suite"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_cmp_container" />
-
-    <Button
-        android:id="@+id/btn_debugging_suite"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="8dp"
-        android:enabled="true"
-        android:text="@string/label_debugging_suite"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_init"
-        app:layout_constraintTop_toBottomOf="@id/cl_cmp_container" />
-
-    <Button
-        android:id="@+id/btn_show_apo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginTop="8dp"
-        android:enabled="false"
-        android:text="@string/label_show_apo"
-        tools:enabled="true"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/btn_show_itt"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_init"/>
-
-    <Button
-        android:id="@+id/btn_show_itt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:enabled="false"
-        android:text="@string/label_show_itt"
-        tools:enabled="true"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_show_apo"
-        app:layout_constraintTop_toBottomOf="@id/btn_init"/>
-
-
-    <Button
-        android:id="@+id/btn_show_rew"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginTop="8dp"
-        android:enabled="false"
-        tools:enabled="true"
-        android:text="@string/label_show_rew"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/btn_show_ban"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_show_apo" />
-
-    <Button
-        android:id="@+id/btn_show_ban"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="8dp"
-        android:enabled="false"
-        tools:enabled="true"
-        android:text="@string/label_show_banner"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_show_rew"
-        app:layout_constraintTop_toBottomOf="@id/btn_show_apo" />
-
-    <Button
-        android:id="@+id/btn_show_nat"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:enabled="false"
-        tools:enabled="true"
-        android:text="@string/label_show_native"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_show_rew" />
-
+    <!-- Banner footer pinned at the bottom -->
     <FrameLayout
         android:id="@+id/banner_footer"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/native_footer"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="8dp" />
 
-    </FrameLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

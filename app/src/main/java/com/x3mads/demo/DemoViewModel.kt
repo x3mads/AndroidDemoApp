@@ -18,6 +18,7 @@ import com.x3mads.demo.ads.BannerHelper
 import com.x3mads.demo.ads.InterstitialHelper
 import com.x3mads.demo.ads.NativeHelper
 import com.x3mads.demo.ads.RewardedHelper
+import com.etermax.xmediator.core.api.entities.PurchaseEvent
 import com.x3mads.demo.ads.XMediatorHelper
 import com.x3mads.demo.ads.XMediatorHelper.cmpEnabled
 import com.x3mads.demo.ads.XMediatorHelper.fakeEeaRegion
@@ -104,6 +105,18 @@ class DemoViewModel : ViewModel() {
 
     fun onShowApo(activity: Activity) {
         XMediatorHelper.showAppOpen(activity, adSpace)
+    }
+
+    fun onTrackTestPurchase() {
+        XMediatorHelper.trackPurchase(
+            PurchaseEvent(
+                amount = 0.99,
+                currency = "USD",
+                sku = "test_sku_001",
+                name = "Test Purchase"
+            )
+        )
+        _onMessage.value = "Test purchase tracked"
     }
 
     fun onMediatorSelected(mediator: String) {

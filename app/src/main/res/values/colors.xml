@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <!-- Loomit Brand Colors -->
+    <color name="loomit_green">#FF00FFB6</color>
+    <color name="loomit_lime_green">#FFD0EF3D</color>
+    <color name="loomit_blue">#FF024A5E</color>
+    <color name="loomit_dark_blue">#FF012A36</color>
+    <color name="loomit_surface_variant">#FF033D4D</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="white_40">#66FFFFFF</color>
+
+    <!-- Material 3 Dark Theme Roles (Loomit) -->
+    <color name="md_theme_primary">@color/loomit_green</color>
+    <color name="md_theme_onPrimary">@color/loomit_dark_blue</color>
+    <color name="md_theme_primaryContainer">@color/loomit_blue</color>
+    <color name="md_theme_onPrimaryContainer">@color/loomit_green</color>
+    <color name="md_theme_secondary">@color/loomit_lime_green</color>
+    <color name="md_theme_onSecondary">@color/loomit_dark_blue</color>
+    <color name="md_theme_secondaryContainer">@color/loomit_blue</color>
+    <color name="md_theme_onSecondaryContainer">@color/loomit_lime_green</color>
+    <color name="md_theme_background">@color/loomit_dark_blue</color>
+    <color name="md_theme_onBackground">@color/white</color>
+    <color name="md_theme_surface">@color/loomit_blue</color>
+    <color name="md_theme_onSurface">@color/white</color>
+    <color name="md_theme_surfaceVariant">@color/loomit_surface_variant</color>
+    <color name="md_theme_onSurfaceVariant">@color/white_70</color>
+    <color name="md_theme_error">#FFCF6679</color>
+    <color name="md_theme_onError">@color/black</color>
+    <color name="md_theme_outline">@color/white_40</color>
 </resources>

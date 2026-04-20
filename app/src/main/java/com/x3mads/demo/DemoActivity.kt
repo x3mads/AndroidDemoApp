@@ -17,6 +17,7 @@ class DemoActivity : AppCompatActivity() {
     private val viewModel: DemoViewModel by viewModels()
 
     private lateinit var btnInit: Button
+    private lateinit var btnTrackPurchase: Button
     private lateinit var btnShowBan: Button
     private lateinit var btnShowItt: Button
     private lateinit var btnShowRew: Button
@@ -34,12 +35,15 @@ class DemoActivity : AppCompatActivity() {
     private lateinit var bannerFooter: ViewGroup
     private lateinit var nativeFooter: ViewGroup
 
+    private var hasMediatorSelected: Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_demo)
 
         btnInit = findViewById(R.id.btn_init)
+        btnTrackPurchase = findViewById(R.id.btn_track_purchase)
         btnShowBan = findViewById(R.id.btn_show_ban)
         btnShowItt = findViewById(R.id.btn_show_itt)
         btnShowRew = findViewById(R.id.btn_show_rew)
@@ -59,7 +63,9 @@ class DemoActivity : AppCompatActivity() {
 
         ctvFakeEeaRegion.isEnabled = false
 
+        btnInit.isEnabled = false
         btnInit.setOnClickListener { viewModel.onInitButtonClick(this) }
+        btnTrackPurchase.setOnClickListener { viewModel.onTrackTestPurchase() }
         btnShowBan.setOnClickListener {
             nativeFooter.removeAllViews()
             viewModel.onShowBanner(this, bannerFooter) }
@@ -105,6 +111,8 @@ class DemoActivity : AppCompatActivity() {
             ) {
                 parent.getItemAtPosition(position)?.let {
                     val mediator = it.toString()
+                    hasMediatorSelected = mediator.isNotBlank()
+                    btnInit.isEnabled = hasMediatorSelected && viewModel.isInitialized.value != true
                     if (mediator == "CUSTOM")
                         viewModel.onCustomMediatorSelected(this@DemoActivity) {}
                     else if (mediator.isNotBlank()) {
@@ -123,7 +131,7 @@ class DemoActivity : AppCompatActivity() {
 
         viewModel.isInitialized.observe(this) { isInitialized ->
             spMediator.isEnabled = !isInitialized
-            btnInit.isEnabled = !isInitialized
+            btnInit.isEnabled = !isInitialized && hasMediatorSelected
             ctvAutomaticCmp.isEnabled = !isInitialized
             ctvFakeEeaRegion.isEnabled = !isInitialized && ctvAutomaticCmp.isChecked
             val cmpProviderAvailable = viewModel.isCmpProviderAvailable(this)

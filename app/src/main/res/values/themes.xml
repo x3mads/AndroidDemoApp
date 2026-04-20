@@ -1,4 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.X3MDemo" parent="Theme.AppCompat.Light.NoActionBar" />
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Main Theme (Loomit Dark, Material 3) -->
+    <style name="Theme.X3MDemo" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Primary -->
+        <item name="colorPrimary">@color/md_theme_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_onPrimaryContainer</item>
+        <!-- Secondary -->
+        <item name="colorSecondary">@color/md_theme_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_onSecondaryContainer</item>
+        <!-- Background / Surface -->
+        <item name="android:colorBackground">@color/md_theme_background</item>
+        <item name="colorOnBackground">@color/md_theme_onBackground</item>
+        <item name="colorSurface">@color/md_theme_surface</item>
+        <item name="colorOnSurface">@color/md_theme_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_onSurfaceVariant</item>
+        <!-- Error / Outline -->
+        <item name="colorError">@color/md_theme_error</item>
+        <item name="colorOnError">@color/md_theme_onError</item>
+        <item name="colorOutline">@color/md_theme_outline</item>
+        <!-- System bars -->
+        <item name="android:statusBarColor">@color/loomit_dark_blue</item>
+        <item name="android:navigationBarColor">@color/loomit_dark_blue</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+
+    <!-- Card style -->
+    <style name="Widget.X3MDemo.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/loomit_blue</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="contentPadding">16dp</item>
+    </style>
+
+    <!-- Section title style -->
+    <style name="TextAppearance.X3MDemo.SectionTitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">@color/loomit_green</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.05</item>
+    </style>
+
+    <!-- Card header title style -->
+    <style name="TextAppearance.X3MDemo.CardTitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!-- Primary button -->
+    <style name="Widget.X3MDemo.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/btn_primary_background_tint</item>
+        <item name="android:textColor">@color/btn_primary_text_color</item>
+        <item name="iconTint">@color/btn_primary_text_color</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+    <!-- Outlined button -->
+    <style name="Widget.X3MDemo.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">@color/btn_outlined_text_color</item>
+        <item name="strokeColor">@color/btn_adtype_stroke_color</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+    <!-- Ad-type tile button (compact, square-ish).
+         Shows a green stroke when enabled (ad ready) and fades when disabled. -->
+    <style name="Widget.X3MDemo.Button.AdType" parent="Widget.Material3.Button.TonalButton">
+        <item name="backgroundTint">@color/btn_adtype_background_tint</item>
+        <item name="android:textColor">@color/btn_adtype_content_color</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="iconTint">@color/btn_adtype_content_color</item>
+        <item name="iconGravity">top</item>
+        <item name="iconSize">28dp</item>
+        <item name="strokeColor">@color/btn_adtype_stroke_color</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:minHeight">92dp</item>
+    </style>
+
 </resources>
