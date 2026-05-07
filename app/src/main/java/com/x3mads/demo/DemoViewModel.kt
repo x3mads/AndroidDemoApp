@@ -11,6 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.etermax.xmediator.core.api.entities.AppEvent
+import com.etermax.xmediator.core.api.entities.AppEventName
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.x3mads.demo.ads.AppOpenHelper
@@ -19,6 +21,7 @@ import com.x3mads.demo.ads.InterstitialHelper
 import com.x3mads.demo.ads.NativeHelper
 import com.x3mads.demo.ads.RewardedHelper
 import com.etermax.xmediator.core.api.entities.PurchaseEvent
+import com.etermax.xmediator.core.api.entities.buildCustomProperties
 import com.x3mads.demo.ads.XMediatorHelper
 import com.x3mads.demo.ads.XMediatorHelper.cmpEnabled
 import com.x3mads.demo.ads.XMediatorHelper.fakeEeaRegion
@@ -117,6 +120,17 @@ class DemoViewModel : ViewModel() {
             )
         )
         _onMessage.value = "Test purchase tracked"
+    }
+
+    fun onTrackTestAppEvent(){
+        XMediatorHelper.trackAppEvent(
+            AppEvent.standard(AppEventName.GAME_START,
+                buildCustomProperties {
+                    addInt("level", 1)
+                    addString("game_mode", "test")
+                })
+        )
+        _onMessage.value = "Test app event tracked"
     }
 
     fun onMediatorSelected(mediator: String) {

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import com.etermax.xmediator.core.api.entities.AdOpportunityEvent
+import com.etermax.xmediator.core.api.entities.AppEvent
 import com.etermax.xmediator.core.api.entities.CMPDebugGeography
 import com.etermax.xmediator.core.api.entities.CMPDebugSettings
 import com.etermax.xmediator.core.api.entities.ConsentInformation
@@ -135,12 +136,20 @@ object XMediatorHelper {
         AppOpenHelper.showApo(activity, adSpace)
     }
 
-    fun trackPurchase(event: PurchaseEvent) {
+    fun trackPurchase(purchaseEvent: PurchaseEvent) {
         if (!isInitialized.get()) {
             Log.w("XMediatorHelper", "Cannot track purchase: SDK not initialized")
             return
         }
-        XMediatorAds.EventTracker.track(event)
+        XMediatorAds.EventTracker.track(purchaseEvent)
+    }
+
+    fun trackAppEvent(appEvent: AppEvent) {
+        if (!isInitialized.get()) {
+            Log.w("XMediatorHelper", "Cannot track app event: SDK not initialized")
+            return
+        }
+        XMediatorAds.EventTracker.track(appEvent)
     }
 
     private fun trackAdOpportunity(event: AdOpportunityEvent) {

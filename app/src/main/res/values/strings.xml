@@ -26,6 +26,7 @@
     <string name="label_show_native">Native</string>
     <string name="label_show_apo">App Open</string>
     <string name="label_track_purchase">Track Test Purchase</string>
+    <string name="label_track_app_event">Track Test App Event</string>
     <string name="section_tracking">Tracking</string>
 
     <!-- Status -->

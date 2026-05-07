@@ -343,6 +343,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_track_purchase" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_track_app_event"
+                style="@style/Widget.X3MDemo.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_track_app_event" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

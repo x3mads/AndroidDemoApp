@@ -15,9 +15,9 @@ import androidx.appcompat.app.AppCompatActivity
 class DemoActivity : AppCompatActivity() {
 
     private val viewModel: DemoViewModel by viewModels()
-
     private lateinit var btnInit: Button
     private lateinit var btnTrackPurchase: Button
+    private lateinit var btnTrackAppEvent: Button
     private lateinit var btnShowBan: Button
     private lateinit var btnShowItt: Button
     private lateinit var btnShowRew: Button
@@ -44,6 +44,7 @@ class DemoActivity : AppCompatActivity() {
 
         btnInit = findViewById(R.id.btn_init)
         btnTrackPurchase = findViewById(R.id.btn_track_purchase)
+        btnTrackAppEvent = findViewById(R.id.btn_track_app_event)
         btnShowBan = findViewById(R.id.btn_show_ban)
         btnShowItt = findViewById(R.id.btn_show_itt)
         btnShowRew = findViewById(R.id.btn_show_rew)
@@ -66,6 +67,7 @@ class DemoActivity : AppCompatActivity() {
         btnInit.isEnabled = false
         btnInit.setOnClickListener { viewModel.onInitButtonClick(this) }
         btnTrackPurchase.setOnClickListener { viewModel.onTrackTestPurchase() }
+        btnTrackAppEvent.setOnClickListener { viewModel.onTrackTestAppEvent() }
         btnShowBan.setOnClickListener {
             nativeFooter.removeAllViews()
             viewModel.onShowBanner(this, bannerFooter) }
