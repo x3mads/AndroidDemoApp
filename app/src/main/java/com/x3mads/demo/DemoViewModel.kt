@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.etermax.xmediator.core.api.entities.AppEvent
 import com.etermax.xmediator.core.api.entities.AppEventName
+import com.etermax.xmediator.core.api.entities.InAppPurchaseSummary
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.x3mads.demo.ads.AppOpenHelper
@@ -23,6 +24,7 @@ import com.x3mads.demo.ads.RewardedHelper
 import com.etermax.xmediator.core.api.entities.PurchaseEvent
 import com.etermax.xmediator.core.api.entities.buildCustomProperties
 import com.x3mads.demo.ads.XMediatorHelper
+import java.util.Date
 import com.x3mads.demo.ads.XMediatorHelper.cmpEnabled
 import com.x3mads.demo.ads.XMediatorHelper.fakeEeaRegion
 
@@ -108,6 +110,58 @@ class DemoViewModel : ViewModel() {
 
     fun onShowApo(activity: Activity) {
         XMediatorHelper.showAppOpen(activity, adSpace)
+    }
+
+    fun onSetUserId(userId: String) {
+        val trimmed = userId.trim()
+        if (trimmed.isEmpty()) {
+            _onMessage.value = "User ID cannot be empty"
+            return
+        }
+        XMediatorHelper.setUserId(trimmed)
+        _onMessage.value = "User ID set to $trimmed"
+    }
+
+    fun onSetInstallDate() {
+        val now = Date()
+        XMediatorHelper.setInstallDate(now)
+        _onMessage.value = "Install date set to $now"
+    }
+
+    fun onSetPurchaseSummary() {
+        val purchaseSummary = InAppPurchaseSummary(
+            totalAmountSpent = 49.99,
+            currencyCode = "USD",
+            numberOfPurchases = 5
+        )
+        XMediatorHelper.setPurchaseSummary(purchaseSummary)
+        _onMessage.value = "Purchase summary set ($49.99 USD, 5 purchases)"
+    }
+
+    fun onSetSampleCustomProperties() {
+        XMediatorHelper.setCustomProperty("level", 5)
+        XMediatorHelper.setCustomProperty("is_premium", true)
+        XMediatorHelper.setCustomProperty("score", 12.5)
+        XMediatorHelper.setCustomProperty("name", "John")
+        XMediatorHelper.setCustomProperty("favorite_categories", setOf("games", "puzzle"))
+        _onMessage.value = "Sample custom properties set"
+    }
+
+    fun onRemoveSampleCustomProperty() {
+        XMediatorHelper.removeCustomProperty("old_key")
+        _onMessage.value = "Removed custom property \"old_key\""
+    }
+
+    fun onGetUserProperties(): String = XMediatorHelper.getUserProperties().toString()
+
+    fun onClearCustomProperties() {
+        XMediatorHelper.clearCustomProperties()
+        _onMessage.value = "Custom properties cleared"
+    }
+
+    fun onClearUserProperties() {
+        XMediatorHelper.clearUserProperties()
+        _onMessage.value = "User properties cleared"
     }
 
     fun onTrackTestPurchase() {

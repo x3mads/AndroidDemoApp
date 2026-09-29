@@ -8,10 +8,12 @@ import com.etermax.xmediator.core.api.entities.AppEvent
 import com.etermax.xmediator.core.api.entities.CMPDebugGeography
 import com.etermax.xmediator.core.api.entities.CMPDebugSettings
 import com.etermax.xmediator.core.api.entities.ConsentInformation
+import com.etermax.xmediator.core.api.entities.InAppPurchaseSummary
 import com.etermax.xmediator.core.api.entities.InitSettings
 import com.etermax.xmediator.core.api.entities.PurchaseEvent
 import com.etermax.xmediator.core.api.entities.UserProperties
 import com.x3mads.android.xmediator.core.api.XMediatorAds
+import java.util.Date
 import java.util.concurrent.atomic.AtomicBoolean
 
 object XMediatorHelper {
@@ -134,6 +136,52 @@ object XMediatorHelper {
     fun showAppOpen(activity: Activity, adSpace: String) {
         if (initializeIfNeedIt(activity)) return
         AppOpenHelper.showApo(activity, adSpace)
+    }
+
+    fun setUserId(userId: String) {
+        XMediatorAds.UserProperties.setUserId(userId)
+    }
+
+    fun setInstallDate(installDate: Date = Date()) {
+        XMediatorAds.UserProperties.setInstallDate(installDate)
+    }
+
+    fun setPurchaseSummary(purchaseSummary: InAppPurchaseSummary) {
+        XMediatorAds.UserProperties.setPurchaseSummary(purchaseSummary)
+    }
+
+    fun setCustomProperty(key: String, value: Int) {
+        XMediatorAds.UserProperties.setCustomProperty(key, value)
+    }
+
+    fun setCustomProperty(key: String, value: Boolean) {
+        XMediatorAds.UserProperties.setCustomProperty(key, value)
+    }
+
+    fun setCustomProperty(key: String, value: Double) {
+        XMediatorAds.UserProperties.setCustomProperty(key, value)
+    }
+
+    fun setCustomProperty(key: String, value: String) {
+        XMediatorAds.UserProperties.setCustomProperty(key, value)
+    }
+
+    fun setCustomProperty(key: String, value: Set<String>) {
+        XMediatorAds.UserProperties.setCustomProperty(key, value)
+    }
+
+    fun removeCustomProperty(key: String) {
+        XMediatorAds.UserProperties.removeCustomProperty(key)
+    }
+
+    fun getUserProperties(): UserProperties = XMediatorAds.UserProperties.get()
+
+    fun clearCustomProperties() {
+        XMediatorAds.UserProperties.clearCustomProperties()
+    }
+
+    fun clearUserProperties() {
+        XMediatorAds.UserProperties.clear()
     }
 
     fun trackPurchase(purchaseEvent: PurchaseEvent) {

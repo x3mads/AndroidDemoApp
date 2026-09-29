@@ -327,6 +327,217 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
 
+            <!-- Section: User Properties -->
+            <LinearLayout
+                android:id="@+id/user_properties_toggle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:minHeight="48dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/section_user_properties"
+                    android:textAppearance="@style/TextAppearance.X3MDemo.SectionTitle" />
+
+                <ImageView
+                    android:id="@+id/user_properties_chevron"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_chevron_down" />
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/user_properties_card"
+                style="@style/Widget.X3MDemo.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Identity -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/subhead_user_properties_identity"
+                        android:textAppearance="@style/TextAppearance.X3MDemo.CardTitle" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/desc_user_properties_identity"
+                        android:textColor="@color/white_70"
+                        android:textSize="13sp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="@string/hint_user_id">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_user_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionDone"
+                            android:inputType="text"
+                            android:singleLine="true"
+                            android:text="@string/default_user_id" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_set_user_id"
+                        style="@style/Widget.X3MDemo.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/label_set_user_id" />
+
+                    <!-- Sample data -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/subhead_user_properties_sample_data"
+                        android:textAppearance="@style/TextAppearance.X3MDemo.CardTitle" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/desc_user_properties_sample_data"
+                        android:textColor="@color/white_70"
+                        android:textSize="13sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_set_install_date"
+                        style="@style/Widget.X3MDemo.Button.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/label_set_install_date" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_set_purchase_summary"
+                        style="@style/Widget.X3MDemo.Button.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/label_set_purchase_summary" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_set_custom_properties"
+                        style="@style/Widget.X3MDemo.Button.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/label_set_custom_properties" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_remove_custom_property"
+                        style="@style/Widget.X3MDemo.Button.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/label_remove_custom_property" />
+
+                    <!-- Current properties -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/subhead_user_properties_current"
+                        android:textAppearance="@style/TextAppearance.X3MDemo.CardTitle" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/desc_user_properties_current"
+                        android:textColor="@color/white_70"
+                        android:textSize="13sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_get_user_properties"
+                        style="@style/Widget.X3MDemo.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/label_get_user_properties" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:cardBackgroundColor="@color/loomit_surface_variant"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp">
+
+                        <TextView
+                            android:id="@+id/tv_user_properties"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="72dp"
+                            android:fontFamily="monospace"
+                            android:padding="12dp"
+                            android:text="@string/tv_user_properties"
+                            android:textColor="@color/white_70"
+                            android:textIsSelectable="true"
+                            android:textSize="12sp"
+                            tools:text="userId=user-123" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Reset -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/subhead_user_properties_reset"
+                        android:textAppearance="@style/TextAppearance.X3MDemo.CardTitle" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/desc_user_properties_reset"
+                        android:textColor="@color/white_70"
+                        android:textSize="13sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_clear_custom_properties"
+                        style="@style/Widget.X3MDemo.Button.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/label_clear_custom_properties" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_clear_user_properties"
+                        style="@style/Widget.X3MDemo.Button.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/label_clear_user_properties" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Section: Tracking -->
             <TextView
                 android:layout_width="wrap_content"

@@ -29,6 +29,30 @@
     <string name="label_track_app_event">Track Test App Event</string>
     <string name="section_tracking">Tracking</string>
 
+    <!-- User properties -->
+    <string name="section_user_properties">User Properties</string>
+    <string name="hint_user_id">User ID</string>
+    <string name="label_set_user_id">Set user ID</string>
+    <string name="label_set_install_date">Set install date to now</string>
+    <string name="label_set_purchase_summary">Set purchase summary</string>
+    <string name="label_set_custom_properties">Set sample custom properties</string>
+    <string name="label_remove_custom_property">Remove old_key (if present)</string>
+    <string name="label_get_user_properties">Get current properties</string>
+    <string name="label_clear_custom_properties">Clear custom properties</string>
+    <string name="label_clear_user_properties">Clear all</string>
+    <string name="default_user_id">user-123</string>
+    <string name="subhead_user_properties_identity">Identity</string>
+    <string name="desc_user_properties_identity">The user ID is attached to the user properties sent to the SDK.</string>
+    <string name="subhead_user_properties_sample_data">Sample data</string>
+    <string name="desc_user_properties_sample_data">Preset values for testing; purchase summary is fixed at $49.99 USD across 5 purchases. Note: "old_key" is not created by these presets.</string>
+    <string name="subhead_user_properties_current">Current properties</string>
+    <string name="desc_user_properties_current">Fetch the latest user properties from the SDK and show them below.</string>
+    <string name="subhead_user_properties_reset">Reset</string>
+    <string name="desc_user_properties_reset">Clear custom properties removes only your custom keys. Clear all also removes the user ID and built-in fields.</string>
+    <string name="tv_user_properties">Nothing fetched yet. Tap "Get current properties" to see the result here.</string>
+    <string name="expand_user_properties">Expand User Properties</string>
+    <string name="collapse_user_properties">Collapse User Properties</string>
+
     <!-- Status -->
     <string name="status_not_initialized">SDK not initialized</string>
     <string name="status_initialized">SDK initialized</string>

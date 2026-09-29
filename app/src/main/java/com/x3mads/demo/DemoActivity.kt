@@ -1,14 +1,19 @@
 package com.x3mads.demo
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckedTextView
+import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.textfield.TextInputEditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 
@@ -34,8 +39,26 @@ class DemoActivity : AppCompatActivity() {
     private lateinit var clCmp: View
     private lateinit var bannerFooter: ViewGroup
     private lateinit var nativeFooter: ViewGroup
+    private lateinit var etUserId: TextInputEditText
+    private lateinit var btnSetUserId: Button
+    private lateinit var btnSetInstallDate: Button
+    private lateinit var btnSetPurchaseSummary: Button
+    private lateinit var btnSetCustomProperties: Button
+    private lateinit var btnRemoveCustomProperty: Button
+    private lateinit var btnGetUserProperties: Button
+    private lateinit var btnClearCustomProperties: Button
+    private lateinit var btnClearUserProperties: Button
+    private lateinit var tvUserProperties: TextView
+    private lateinit var userPropertiesToggle: View
+    private lateinit var userPropertiesCard: View
+    private lateinit var userPropertiesChevron: ImageView
 
     private var hasMediatorSelected: Boolean = false
+    private var userPropertiesExpanded: Boolean = false
+
+    companion object {
+        private const val KEY_USER_PROPERTIES_EXPANDED = "key_user_properties_expanded"
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +84,26 @@ class DemoActivity : AppCompatActivity() {
         clCmp = findViewById(R.id.cl_cmp)
         bannerFooter = findViewById(R.id.banner_footer)
         nativeFooter = findViewById(R.id.native_footer)
+        etUserId = findViewById(R.id.et_user_id)
+        btnSetUserId = findViewById(R.id.btn_set_user_id)
+        btnSetInstallDate = findViewById(R.id.btn_set_install_date)
+        btnSetPurchaseSummary = findViewById(R.id.btn_set_purchase_summary)
+        btnSetCustomProperties = findViewById(R.id.btn_set_custom_properties)
+        btnRemoveCustomProperty = findViewById(R.id.btn_remove_custom_property)
+        btnGetUserProperties = findViewById(R.id.btn_get_user_properties)
+        btnClearCustomProperties = findViewById(R.id.btn_clear_custom_properties)
+        btnClearUserProperties = findViewById(R.id.btn_clear_user_properties)
+        tvUserProperties = findViewById(R.id.tv_user_properties)
+        userPropertiesToggle = findViewById(R.id.user_properties_toggle)
+        userPropertiesCard = findViewById(R.id.user_properties_card)
+        userPropertiesChevron = findViewById(R.id.user_properties_chevron)
+
+        userPropertiesToggle.setOnClickListener {
+            setUserPropertiesExpanded(!userPropertiesExpanded)
+        }
+        setUserPropertiesExpanded(
+            savedInstanceState?.getBoolean(KEY_USER_PROPERTIES_EXPANDED) ?: false
+        )
 
         ctvFakeEeaRegion.isEnabled = false
 
@@ -94,6 +137,35 @@ class DemoActivity : AppCompatActivity() {
         btnCmpReset.setOnClickListener { viewModel.onResetCmp(this) }
         btnDebuggingSuite.setOnClickListener { viewModel.onDebuggingSuiteButtonClick(this) }
         btnResetApp.setOnClickListener { viewModel.resetApp(this) }
+        btnSetUserId.setOnClickListener {
+            viewModel.onSetUserId(etUserId.text?.toString().orEmpty())
+            refreshUserProperties()
+        }
+        btnSetInstallDate.setOnClickListener {
+            viewModel.onSetInstallDate()
+            refreshUserProperties()
+        }
+        btnSetPurchaseSummary.setOnClickListener {
+            viewModel.onSetPurchaseSummary()
+            refreshUserProperties()
+        }
+        btnSetCustomProperties.setOnClickListener {
+            viewModel.onSetSampleCustomProperties()
+            refreshUserProperties()
+        }
+        btnRemoveCustomProperty.setOnClickListener {
+            viewModel.onRemoveSampleCustomProperty()
+            refreshUserProperties()
+        }
+        btnGetUserProperties.setOnClickListener { refreshUserProperties() }
+        btnClearCustomProperties.setOnClickListener {
+            viewModel.onClearCustomProperties()
+            refreshUserProperties()
+        }
+        btnClearUserProperties.setOnClickListener {
+            viewModel.onClearUserProperties()
+            refreshUserProperties()
+        }
 
         ArrayAdapter.createFromResource(
             this,
@@ -166,6 +238,30 @@ class DemoActivity : AppCompatActivity() {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+    private fun refreshUserProperties() {
+        tvUserProperties.text = viewModel.onGetUserProperties()
+    }
+
+    private fun setUserPropertiesExpanded(expanded: Boolean) {
+        if (!expanded && etUserId.hasFocus()) {
+            etUserId.clearFocus()
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(etUserId.windowToken, 0)
+        }
+        userPropertiesExpanded = expanded
+        userPropertiesCard.visibility = if (expanded) View.VISIBLE else View.GONE
+        userPropertiesChevron.rotation = if (expanded) 180f else 0f
+        userPropertiesToggle.contentDescription = getString(
+            if (expanded) R.string.collapse_user_properties
+            else R.string.expand_user_properties
+        )
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(KEY_USER_PROPERTIES_EXPANDED, userPropertiesExpanded)
     }
 
     override fun onResume() {
